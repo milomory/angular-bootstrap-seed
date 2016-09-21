@@ -22,3 +22,9 @@
         </div>
     </div>
 </nav>
+<div class="container">
+    <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
+        <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
+    </div>
+    <ui-view></ui-view>
+</div>

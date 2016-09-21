@@ -4,8 +4,60 @@
     </button>
     <h4 class="modal-title">{{'User Editor' | translate}}</h4>
 </div>
-<form name="userForm" novalidate>
+<form name="userForm" novalidate ng-submit="$ctrl.saveUser()">
     <div class="modal-body">
-        <pre>{{$ctrl.user | json}}</pre>
+        <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
+            <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
+        </div>
+        <div class="form-group has-success" ng-class="{'has-error': userForm.fullname.$error.required}">
+            <label class="control-label" for="fullname">{{'Fullname' | translate}}</label>
+            <input class="form-control" id="fullname" name="fullname" required ng-model="$ctrl.user.fullname">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="bornAt">{{'Birthday' | translate}}</label>
+            <input type="date" class="form-control" id="bornAt" name="bornAt" ng-model="$ctrl.user.bornAt">
+        </div>
+        <div class="checkbox">
+            <input type="checkbox" id="private" ng-model="$ctrl.user.isAdmin"
+                   ng-disabled="$ctrl.currentUser.id == $ctrl.user.id">
+            <label for="private">{{'Administrator' | translate}}</label>
+        </div>
+        <div class="row" ng-if="$ctrl.currentUser.id == $ctrl.user.id || $ctrl.currentUser.isAdmin">
+            <div class="form-group col-sm-6">
+                <div class="form-group has-success" ng-class="{'has-error': userForm.password.$error.required}">
+                    <label class="control-label" for="password">{{'Password' | translate}}</label>
+                    <input type="password" class="form-control" id="password" name="password" required
+                           ng-model="$ctrl.user.localUser.password">
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <div class="form-group has-success" ng-class="{'has-error': userForm.newPassword.$error.required}">
+                    <label class="control-label" for="newPassword">{{'New password' | translate}}</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword"
+                           ng-model="$ctrl.user.localUser.newPassword">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="btn-group">
+            <button class="btn btn-default" type="submit" ng-disabled="$ctrl.loading"
+                    ng-click="$ctrl.close({$value: $ctrl.user})">
+                <i class="fa fa-close"></i> {{'Close' | translate}}
+            </button>
+            <button class="btn btn-primary" type="submit" ng-disabled="userForm.$invalid || $ctrl.loading">
+                <i class="fa fa-save"></i> {{'Save' | translate}}
+            </button>
+            <button class="btn btn-danger" type="button" ng-disabled="userForm.$invalid || $ctrl.loading"
+                    ng-if="$ctrl.user.id && $ctrl.currentUser.id != $ctrl.user.id && !$ctrl.user.deletedAt"
+                    nk-confirm="{{'Delete user?' | translate}}" ng-click="$ctrl.removeUser()">
+                <i class="fa fa-remove"></i> {{'Delete' | translate}}
+            </button>
+            <button class="btn btn-info" type="button" ng-disabled="userForm.$invalid || $ctrl.loading"
+                    ng-if="$ctrl.user.deletedAt" nk-confirm="{{'Restore user?' | translate}}"
+                    ng-click="$ctrl.restoreUser()">
+                <i class="fa fa-undo"></i> {{'Restore' | translate}}
+            </button>
+        </div>
     </div>
 </form>

@@ -12,7 +12,7 @@ angular.module('app').service('modalService', function ($document, $uibModal) {
         component: 'userModal',
         appendTo: $document.find('div').eq(0),
         resolve: {
-            user: () => ({id: 1, fullname: 'Test fullname'})
+            user: apiService => apiService.User.get({id: userId}).$promise
         }
     }).result;
 });

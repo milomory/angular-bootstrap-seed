@@ -9,5 +9,15 @@
   "Cancel": "Отмена",
   "Are you sure you want to signout?": "Вы уверены что хотите выйти?",
   "Signed in as": "Вы вошли как",
-  "User Editor": "Редактор пользователя"
+  "User Editor": "Редактор пользователя",
+  "Fullname": "Полное имя",
+  "Birthday": "Дата рождения",
+  "Administrator": "Aдминистратор",
+  "New password": "Новый пароль",
+  "Save": "Сохранить",
+  "Delete": "Удалить",
+  "Delete user": "Удалить пользователя?",
+  "Restore": "Восстановить",
+  "Restore user?": "Восстановить пользователя?",
+  "Close": "Закрыть"
 }
