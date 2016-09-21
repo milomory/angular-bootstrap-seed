@@ -124,7 +124,7 @@ if (NODE_ENV == 'development') {
         historyApiFallback: true
     };
 
-    webpackConfig.devtool = 'cheap-inline-module-source-map';
+    webpackConfig.devtool = 'source-map';
     webpackConfig.watch = true;
 }
 
