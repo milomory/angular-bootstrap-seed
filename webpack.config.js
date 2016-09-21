@@ -74,6 +74,9 @@ var webpackConfig = {
                 exclude: /(bower_components|node_modules)/,
                 loader: 'url?name=[path][name].[ext]&limit=524288'
             }
+        ],
+        noParse: [
+            /socket.io-client/,
         ]
     },
     plugins: [

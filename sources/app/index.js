@@ -3,6 +3,9 @@
  */
 
 angular.module('app', [
+    'ngAnimate', 'ngCookies', 'ngMessages', 'ngResource', 'ngSanitize',
+    'ui.bootstrap', 'ui.router', 'ui.select',
+    'pascalprecht.translate'
 ]).config(($locationProvider, $compileProvider) => {
     $locationProvider.html5Mode(true).hashPrefix('!');
 
