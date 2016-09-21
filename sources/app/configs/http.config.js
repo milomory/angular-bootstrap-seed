@@ -15,17 +15,17 @@ angular.module('app').config($httpProvider => {
         },
         response: res => {
             $rootScope.$broadcast('loading', --pending > 0);
+            $rootScope.$broadcast('errorMessage', res.data.message);
             return res;
         },
         responseError: res => {
-            $rootScope.$broadcast('loading', --pending > 0);
-
             if (res.status == -1) {
                 res.data = {message: 'Сервер временно недоступен'};
             } else {
                 res.data.message = res.data.message || 'Что-то пошло не так';
             }
 
+            $rootScope.$broadcast('loading', --pending > 0);
             $rootScope.$broadcast('errorMessage', res.data.message);
 
             return Promise.reject(res);

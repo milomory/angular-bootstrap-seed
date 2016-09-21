@@ -5,6 +5,7 @@
 require('jquery');
 require('bootstrap');
 require('bootstrap/dist/css/bootstrap.css');
+require('bootswatch/flatly/bootstrap.css');
 require('font-awesome/css/font-awesome.css');
 require('awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');
 
