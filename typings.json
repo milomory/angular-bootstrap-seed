@@ -1,0 +1,9 @@
+{
+  "name": "angular-seed",
+  "globalDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160920144239",
+    "bootstrap": "registry:dt/bootstrap#3.3.5+20160619023404",
+    "jquery": "registry:dt/jquery#1.10.0+20160908203239",
+    "node": "registry:dt/node#6.0.0+20160920093002"
+  }
+}
