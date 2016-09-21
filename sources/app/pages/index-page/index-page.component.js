@@ -10,7 +10,7 @@ angular.module('app').config($stateProvider => {
     });
 }).component('indexPage', {
     template: require('./index-page.component.html'),
-    controller: function ($scope, $cookies, $state, authService) {
+    controller: function ($scope, $cookies, $state, authService, modalService) {
         $scope.$on('errorMessage', (event, message) => this.errorMessage = message);
         $scope.$on('loading', (event, loading) => this.loading = loading);
 
@@ -18,7 +18,9 @@ angular.module('app').config($stateProvider => {
         this.signout = () => authService.signout().then(() => $state.go('auth'));
 
         this.showUserModal = () => {
-            console.log('showUserModal');
+            modalService.showUserModal(this.currentUser.id).then(user => {
+                console.log(user);
+            });
         };
     }
 });

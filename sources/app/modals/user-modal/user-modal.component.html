@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <button class="close" ng-click="$ctrl.dismiss({$value: 'cancel'})">
+        <i class="fa fa-close"></i>
+    </button>
+    <h4 class="modal-title">{{'User Editor' | translate}}</h4>
+</div>
+<form name="userForm" novalidate>
+    <div class="modal-body">
+        <pre>{{$ctrl.user | json}}</pre>
+    </div>
+</form>

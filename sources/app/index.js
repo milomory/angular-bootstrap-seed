@@ -39,6 +39,7 @@ angular.module('app', [
 angular.element(document).ready(() => {
     requireAll(require.context('./configs', true, /\.js$/));
     requireAll(require.context('./directives', true, /\.js$/));
+    requireAll(require.context('./modals', true, /\.js$/));
     requireAll(require.context('./pages', true, /\.js$/));
     requireAll(require.context('./services', true, /\.js$/));
     require('./index.less');
