@@ -1,0 +1,24 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="icon-bar" ng-repeat="i in [0, 1, 2]"></span>
+            </button>
+            <a class="navbar-brand" href="#">angular-bootstrap-seed</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a ng-click="$ctrl.showUserModal()">
+                        <i class="fa fa-user"></i> {{'Signed in as' | translate}} {{$ctrl.currentUser.fullname}}
+                    </a>
+                </li>
+                <li>
+                    <a nk-confirm="{{'Are you sure you want to signout?' | translate}}" ng-click="$ctrl.signout()">
+                        <i class="fa fa-sign-out"></i> {{'Signout' | translate}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

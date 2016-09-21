@@ -1,0 +1,12 @@
+{
+  "Username": "Имя пользователя",
+  "Password": "Пароль",
+  "Singin": "Войти",
+  "Singup": "Регистрация",
+  "Signout": "Выход",
+  "Confirm action": "Подтвердите действие",
+  "Ok": "Хорошо",
+  "Cancel": "Отмена",
+  "Are you sure you want to signout?": "Вы уверены что хотите выйти?",
+  "Signed in as": "Вы вошли как"
+}
