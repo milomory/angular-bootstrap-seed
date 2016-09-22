@@ -18,18 +18,33 @@ angular.module('app').component('userModal', {
 
         this.saveUser = () => {
             let user = angular.copy(this.user);
-            user.$save().then(user => angular.extend(user, this.user));
+            user.$save().then(user => {
+                angular.extend(this.user, user);
+                this.close({$value: this.user});
+            }).finally(() => {
+                delete this.user.localUser;
+            });
         };
 
         this.removeUser = () => {
             let user = angular.copy(this.user);
-            user.$remove().then(user => angular.extend(user, this.user));
+            user.$remove().then(user => {
+                angular.extend(this.user, user);
+                this.close({$value: this.user});
+            }).finally(() => {
+                delete this.user.localUser;
+            });
         };
 
         this.restoreUser = () => {
             let user = angular.copy(this.user);
             user.deletedAt = null;
-            user.$save().then(user => angular.extend(user, this.user));
+            user.$save().then(user => {
+                angular.extend(this.user, user);
+                this.close({$value: this.user});
+            }).finally(() => {
+                delete this.user.localUser;
+            });
         };
     }
 });

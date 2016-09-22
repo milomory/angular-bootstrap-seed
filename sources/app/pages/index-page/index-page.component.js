@@ -15,11 +15,14 @@ angular.module('app').config($stateProvider => {
         $scope.$on('loading', (event, loading) => this.loading = loading);
 
         this.currentUser = $cookies.getObject('currentUser');
-        this.signout = () => authService.signout().then(() => $state.go('auth'));
+
+        this.signout = () => {
+            authService.signout().then(() => $state.go('auth'));
+        };
 
         this.showUserModal = () => {
             modalService.showUserModal(this.currentUser.id).then(user => {
-                console.log(user);
+                $cookies.putObject('currentUser', this.currentUser = user);
             });
         };
     }

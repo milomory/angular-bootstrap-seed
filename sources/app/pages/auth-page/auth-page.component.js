@@ -14,7 +14,12 @@ angular.module('app').config($stateProvider => {
         $scope.$on('errorMessage', (event, message) => this.errorMessage = message);
         $scope.$on('loading', (event, loading) => this.loading = loading);
 
-        this.signin = () => authService.signin(this.user).then(() => $state.go('index'));
-        this.signup = () => authService.signup(this.user).then(() => $state.go('index'));
+        this.signin = () => {
+            authService.signin(this.user).then(() => $state.go('index'));
+        };
+
+        this.signup = () => {
+            authService.signup(this.user).then(() => $state.go('index'));
+        };
     }
 });

@@ -41,10 +41,6 @@
     </div>
     <div class="modal-footer">
         <div class="btn-group">
-            <button class="btn btn-default" type="submit" ng-disabled="$ctrl.loading"
-                    ng-click="$ctrl.close({$value: $ctrl.user})">
-                <i class="fa fa-close"></i> {{'Close' | translate}}
-            </button>
             <button class="btn btn-primary" type="submit" ng-disabled="userForm.$invalid || $ctrl.loading">
                 <i class="fa fa-save"></i> {{'Save' | translate}}
             </button>
