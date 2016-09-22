@@ -50,6 +50,7 @@ angular.module('app').component('documentModal', {
 
         this.showTagModal = tagId => {
             modalService.showTagModal(tagId).then(tag => {
+                // TODO check if tag delete
                 let index = this.document.tags.map(tag => tag.id).indexOf(tag.id);
 
                 if (index == -1) {
