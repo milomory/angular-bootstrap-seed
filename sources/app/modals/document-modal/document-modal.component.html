@@ -1,0 +1,70 @@
+<div class="modal-header">
+    <button class="close" ng-click="$ctrl.dismiss({$value: 'cancel'})">
+        <i class="fa fa-close"></i>
+    </button>
+    <h4 class="modal-title">{{'Document Editor' | translate}}</h4>
+</div>
+<form name="documentForm" novalidate>
+    <div class="modal-body">
+        <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
+            <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
+        </div>
+        <div class="form-group has-success" ng-class="{'has-error': documentForm.name.$error.required}">
+            <label class="control-label" for="name">{{'Name' | translate}}</label>
+            <input type="text" class="form-control" id="name" name="name" required ng-model="$ctrl.document.name">
+        </div>
+        <div class="form-group has-success" ng-class="{'has-error': documentForm.file.$error.required}">
+            <label class="control-label" for="file">
+                {{$ctrl.document.url ? ('File already loaded' | translate) : ('File' | translate)}}
+                <button ng-if="$ctrl.document.url && $ctrl.document.isImage" class="btn btn-default btn-xs"
+                        type="button" nk-preview="{{$ctrl.document.url}}">
+                    <i class="fa fa-search-plus"></i>
+                </button>
+                <a ng-if="$ctrl.document.url" ng-href="{{$ctrl.document.url}}" target="_blank"
+                   class="btn btn-default btn-xs">
+                    <i class="fa fa-download"></i>
+                </a>
+            </label>
+            <input type="file" class="form-control" id="file" name="file" ng-required="!$ctrl.document.url" nk-file
+                   ng-model="$ctrl.document.file">
+        </div>
+        <div class="checkbox">
+            <input type="checkbox" id="isPrivate" ng-model="$ctrl.document.isPrivate">
+            <label for="isPrivate">{{'Private' | translate}}</label>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="tags">
+                {{'Tags' | translate}}
+                <button class="btn btn-default btn-xs" ng-click="$ctrl.showTagModal(0)">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </label>
+            <ui-select multiple id="tags" name="tags" ng-model="$ctrl.document.tags">
+                <ui-select-match placeholder="{{'Tags' | translate}}">
+                    <span ng-click="$ctrl.showTagModal($item.id)">{{$item.name}}</span>
+                </ui-select-match>
+                <ui-select-choices repeat="tag in $ctrl.tags.rows | filter: {name: $select.search} track by $index"
+                                   refresh="$ctrl.queryTags({name: $select.search})" refresh-delay="100"
+                                   minimum-input-length="3">
+                    <div ng-bind-html="tag.name | highlight: $select.search"></div>
+                </ui-select-choices>
+                <ui-select-no-choice>
+                    &nbsp;{{'Nothing to show' | translate}}
+                </ui-select-no-choice>
+            </ui-select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="btn-group">
+            <button class="btn btn-primary" ng-disabled="documentForm.$invalid || $ctrl.loading"
+                    ng-click="$ctrl.saveDocument()">
+                <i class="fa fa-save"></i> {{'Save' | translate}}
+            </button>
+            <button class="btn btn-danger" ng-disabled="documentForm.$invalid || $ctrl.loading"
+                    ng-if="$ctrl.document.id && ($ctrl.currentUser.id == $ctrl.document.creatorId || $ctrl.currentUser.isAdmin)"
+                    nk-confirm="{{'Delete document?' | translate}}" ng-click="$ctrl.removeDocument()">
+                <i class="fa fa-remove"></i> {{'Delete' | translate}}
+            </button>
+        </div>
+    </div>
+</form>

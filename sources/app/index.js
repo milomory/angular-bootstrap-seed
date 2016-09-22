@@ -8,7 +8,7 @@ angular.module('app', [
     'pascalprecht.translate'
 ]).value('appConfig', {
     backendUrl: 'http://localhost:7000/',
-    itemsPerPage: [10, 20, 50]
+    itemsPerPage: [20, 50]
 }).config(($locationProvider, $urlRouterProvider, $translateProvider, $compileProvider) => {
     $locationProvider.html5Mode(true).hashPrefix('!');
     $urlRouterProvider.otherwise('/auth');
@@ -37,6 +37,7 @@ angular.module('app', [
 });
 
 angular.element(document).ready(() => {
+    requireAll(require.context('./components', true, /\.js$/));
     requireAll(require.context('./configs', true, /\.js$/));
     requireAll(require.context('./directives', true, /\.js$/));
     requireAll(require.context('./modals', true, /\.js$/));

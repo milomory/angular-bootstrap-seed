@@ -1,0 +1,104 @@
+<div class="well well-sm clearfix">
+    <nk-search-form ng-model="$ctrl.params.name" ng-change="$ctrl.queryDocuments({name: $value})"></nk-search-form>
+    <form name="filterForm" novalidate uib-collapse="!$ctrl.showFilter">
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="creator" class="control-label">{{'Documents creator' | translate}}</label>
+                <div class="input-group input-group-sm">
+                    <select class="form-control" ng-model="$ctrl.params.creatorId" title="{{'Creator' | translate}}"
+                            id="creator" name="creator"
+                            ng-change="$ctrl.queryDocuments({creatorId: $ctrl.params.creatorId})">
+                        <option value="">{{'All users' | translate}}</option>
+                        <option ng-repeat="user in $ctrl.users.rows" value="{{::user.id}}">
+                            {{::user.fullname}}
+                        </option>
+                    </select>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" ng-click="$ctrl.queryDocuments({creatorId: undefined})">
+                            <i class="fa fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 form-group">
+                <!-- TODO add tags filter-->
+                <label for="tags" class="control-label">{{'Tags' | translate}}</label>
+                <div class="input-group input-group-sm">
+                    <input class="form-control" id="tags" disabled>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" ng-click="$ctrl.queryDocuments()">
+                            <i class="fa fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="limit" class="control-label">{{'Show on page' | translate}}</label>
+            <div class="input-group input-group-sm">
+                <select class="form-control" nk-convert-to-number ng-model="$ctrl.params.limit"
+                        title="{{'Show on page' | translate}}" id="limit" name="limit"
+                        ng-change="$ctrl.queryDocuments({limit: $ctrl.params.limit})">
+                    <option value="10">10</option>
+                    <option ng-repeat="limit in $ctrl.itemsPerPage" value="{{::limit}}">{{::limit}}</option>
+                </select>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="$ctrl.queryDocuments({limit: 10})">
+                        <i class="fa fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.showFilter = !$ctrl.showFilter"
+            title="{{'Filter' | translate}}">
+        {{'Additional params' | translate}}
+        <i class="fa" ng-class="$ctrl.showFilter ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+    </button>
+</div>
+
+<table class="table table-hover" ng-if="$ctrl.documents.rows.length > 0">
+    <thead>
+    <tr>
+        <th class="hidden-xs">Id</th>
+        <th>{{'Name' | translate}}</th>
+        <th class="hidden-xs">{{'Created by' | translate}}</th>
+        <th class="hidden-xs hidden-sm">{{'Changed' | translate}}</th>
+        <th width="32">
+            <button class="btn btn-default btn-sm" ng-click="$ctrl.showDocumentModal(0)">
+                <i class="fa fa-plus"></i>
+            </button>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="document in $ctrl.documents.rows track by $index">
+        <td class="hidden-xs">{{::document.id}}</td>
+        <td>
+            {{document.name}} <i class="fa fa-key" ng-if="document.isPrivate" title="{{'Private' | translate}}"></i>
+            ({{(document.size / 1024) | number: 2}}Kb)
+        </td>
+        <td class="hidden-xs">
+            <a href="#" title="{{'Filter' | translate}}"
+               ng-click="$ctrl.queryDocuments({creatorId: document.creator.id + ''})">
+                {{document.creator.fullname}}
+            </a>
+        </td>
+        <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
+        <td>
+            <button class="btn btn-default btn-sm" ng-click="$ctrl.showDocumentModal(document.id)"
+                    ng-if="$ctrl.currentUser.id == document.creatorId || $ctrl.currentUser.isAdmin">
+                <i class="fa fa-pencil"></i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="alert alert-info" ng-if="$ctrl.documents.rows.length == 0">
+    <i class="fa fa-info"></i> {{'Documents not found' | translate}}
+    <a href="#" ng-click="$ctrl.showDocumentModal(0)"><i class="fa fa-plus"></i></a>
+</div>
+
+<div uib-pager data-ng-model="$ctrl.params.page" ng-change="$ctrl.queryDocuments({page: $ctrl.params.page})"
+     total-items="$ctrl.documents.count" items-per-page="$ctrl.params.limit"></div>

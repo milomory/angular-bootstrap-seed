@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <button class="close" ng-click="$ctrl.dismiss({$value: 'cancel'})">
+        <i class="fa fa-close"></i>
+    </button>
+    <h4 class="modal-title">{{'Tag Editor' | translate}}</h4>
+</div>
+<form name="tagForm" novalidate>
+    <div class="modal-body">
+        <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
+            <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
+        </div>
+        <div class="form-group has-success" ng-class="{'has-error': tagForm.fullname.$error.required}">
+            <label class="control-label" for="name">{{'Name' | translate}}</label>
+            <input class="form-control" id="name" name="name" required ng-model="$ctrl.tag.name">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="btn-group">
+            <button class="btn btn-primary" ng-disabled="tagForm.$invalid || $ctrl.loading" ng-click="$ctrl.saveTag()">
+                <i class="fa fa-save"></i> {{'Save' | translate}}
+            </button>
+            <button class="btn btn-danger" ng-disabled="tagForm.$invalid || $ctrl.loading" ng-if="$ctrl.tag.id"
+                    nk-confirm="{{'Delete user?' | translate}}" ng-click="$ctrl.removeTag()">
+                <i class="fa fa-remove"></i> {{'Delete' | translate}}
+            </button>
+        </div>
+    </div>
+</form>
