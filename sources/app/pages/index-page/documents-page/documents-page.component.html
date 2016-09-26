@@ -97,7 +97,9 @@
             </a>
         </td>
         <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
-        <td class="hidden-xs hidden-sm">{{document.tags}}</td>
+        <td class="hidden-xs hidden-sm">
+            <span ng-repeat="tag in document.tags">{{tag.name}}</span>
+        </td>
         <td>
             <button class="btn btn-default btn-sm" ng-click="$ctrl.showDocumentModal(document.id)"
                     ng-if="$ctrl.currentUser.id == document.creatorId || $ctrl.currentUser.isAdmin">
