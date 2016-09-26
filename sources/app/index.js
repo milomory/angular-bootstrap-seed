@@ -2,6 +2,9 @@
  * Created by niko on 21.09.16.
  */
 
+
+
+
 angular.module('app', [
     'ngAnimate', 'ngCookies', 'ngMessages', 'ngResource', 'ngSanitize',
     'ui.bootstrap', 'ui.router', 'ui.select',

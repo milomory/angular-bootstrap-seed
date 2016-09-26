@@ -19,16 +19,14 @@ angular.module('app').component('tagModal', {
         this.saveTag = () => {
             let tag = angular.copy(this.tag);
             tag.$save().then(tag => {
-                angular.extend(this.tag, tag);
-                this.close({$value: this.tag});
+                this.close({$value: angular.extend(this.tag, tag)});
             });
         };
 
         this.removeTag = () => {
             let tag = angular.copy(this.tag);
-            tag.$remove().then(tag => {
-                angular.extend(this.tag, tag);
-                this.close({$value: this.tag});
+            tag.$remove().then(() => {
+                this.close({$value: null});
             });
         };
     }

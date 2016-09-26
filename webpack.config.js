@@ -49,6 +49,10 @@ var webpackConfig = {
                 loader: 'ng-annotate!babel'
             },
             {
+                test: /angular\.js$/,
+                loader: 'exports?angular'
+            },
+            {
                 test: /\.html$/,
                 loader: 'html'
             },

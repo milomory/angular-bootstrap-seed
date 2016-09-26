@@ -27,16 +27,14 @@ angular.module('app').component('documentModal', {
             let document = angular.copy(this.document);
             document.file = this.document.file;
             document.$save().then(document => {
-                angular.extend(this.document, document);
-                this.close({$value: this.document});
+                this.close({$value: angular.extend(this.document, document)});
             });
         };
 
         this.removeDocument = () => {
             let document = angular.copy(this.document);
-            document.$remove().then(document => {
-                angular.extend(this.document, document);
-                this.close({$value: this.document});
+            document.$remove().then(() => {
+                this.close({$value: null});
             });
         };
 
@@ -50,14 +48,15 @@ angular.module('app').component('documentModal', {
 
         this.showTagModal = tagId => {
             modalService.showTagModal(tagId).then(tag => {
-                // TODO check if tag delete
-                let index = this.document.tags.map(tag => tag.id).indexOf(tag.id);
+                let index = this.document.tags.map(tag => tag.id).indexOf(tagId);
 
-                if (index == -1) {
-                    index = this.document.tags.length;
+                if (!tag) { // tag has been removed
+                    this.document.tags.splice(index, 1);
+                } else if (index == -1) { // tag has been created
+                    this.document.tags.push(tag);
+                } else { // tag has beem updated
+                    this.document.tags[index] = tag;
                 }
-
-                this.document.tags[index] = tag;
             });
         };
     }
