@@ -21,15 +21,25 @@
                 </div>
             </div>
             <div class="col-sm-6 form-group">
-                <!-- TODO add tags filter-->
-                <label for="tags" class="control-label">{{'Tags' | translate}}</label>
-                <div class="input-group input-group-sm">
-                    <input class="form-control" id="tags" disabled>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" ng-click="$ctrl.queryDocuments()">
-                            <i class="fa fa-eraser"></i>
-                        </button>
-                    </div>
+                <div class="form-group">
+                    <label class="control-label" for="tags">
+                        {{'Tags' | translate}}
+                    </label>
+                    <ui-select multiple id="tags" name="tags" ng-model="$ctrl.params.tagIds"
+                               ng-change="$ctrl.queryDocuments({tagIds: $ctrl.params.tagIds})">
+                        <ui-select-match placeholder="{{'Tags' | translate}}">
+                            <span>{{$item.name}}</span>
+                        </ui-select-match>
+                        <ui-select-choices
+                                repeat="tag in $ctrl.tags.rows | filter: {name: $select.search} track by tag.id"
+                                refresh="$ctrl.queryTags({name: $select.search})" refresh-delay="100"
+                                minimum-input-length="3">
+                            <div ng-bind-html="tag.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                        <ui-select-no-choice>
+                            &nbsp;{{'Nothing to show' | translate}}
+                        </ui-select-no-choice>
+                    </ui-select>
                 </div>
             </div>
         </div>

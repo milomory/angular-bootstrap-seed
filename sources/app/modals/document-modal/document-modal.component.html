@@ -43,7 +43,7 @@
                 <ui-select-match placeholder="{{'Tags' | translate}}">
                     <span ng-click="$ctrl.showTagModal($item.id)">{{$item.name}}</span>
                 </ui-select-match>
-                <ui-select-choices repeat="tag in $ctrl.tags.rows | filter: {name: $select.search} track by $index"
+                <ui-select-choices repeat="tag in $ctrl.tags.rows | filter: {name: $select.search} track by tag.id"
                                    refresh="$ctrl.queryTags({name: $select.search})" refresh-delay="100"
                                    minimum-input-length="3">
                     <div ng-bind-html="tag.name | highlight: $select.search"></div>
