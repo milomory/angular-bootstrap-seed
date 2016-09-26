@@ -48,6 +48,7 @@ angular.module('app').component('documentModal', {
 
         this.showTagModal = tagId => {
             modalService.showTagModal(tagId).then(tag => {
+                this.document.tags = this.document.tags || [];
                 let index = this.document.tags.map(tag => tag.id).indexOf(tagId);
 
                 if (!tag) { // tag has been removed

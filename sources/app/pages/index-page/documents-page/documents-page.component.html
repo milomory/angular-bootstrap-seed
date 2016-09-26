@@ -26,6 +26,7 @@
                         {{'Tags' | translate}}
                     </label>
                     <ui-select multiple id="tags" name="tags" ng-model="$ctrl.params.tagIds"
+                               title="{{'Tags' | translate}}"
                                ng-change="$ctrl.queryDocuments({tagIds: $ctrl.params.tagIds})">
                         <ui-select-match placeholder="{{'Tags' | translate}}">
                             <span>{{$item.name}}</span>
@@ -74,6 +75,7 @@
         <th>{{'Name' | translate}}</th>
         <th class="hidden-xs">{{'Created by' | translate}}</th>
         <th class="hidden-xs hidden-sm">{{'Changed' | translate}}</th>
+        <th class="hidden-xs hidden-sm">{{'Tags' | translate}}</th>
         <th width="32">
             <button class="btn btn-default btn-sm" ng-click="$ctrl.showDocumentModal(0)">
                 <i class="fa fa-plus"></i>
@@ -82,7 +84,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="document in $ctrl.documents.rows track by $index">
+    <tr ng-repeat="document in $ctrl.documents.rows track by document.id">
         <td class="hidden-xs">{{::document.id}}</td>
         <td>
             {{document.name}} <i class="fa fa-key" ng-if="document.isPrivate" title="{{'Private' | translate}}"></i>
@@ -95,6 +97,7 @@
             </a>
         </td>
         <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
+        <td class="hidden-xs hidden-sm">{{document.tags}}</td>
         <td>
             <button class="btn btn-default btn-sm" ng-click="$ctrl.showDocumentModal(document.id)"
                     ng-if="$ctrl.currentUser.id == document.creatorId || $ctrl.currentUser.isAdmin">

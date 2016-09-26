@@ -15,8 +15,16 @@ angular.module('app').config($stateProvider => {
         component: 'documentsPage',
         resolve: {
             documents: ($stateParams, apiService) => apiService.Document.query($stateParams).$promise,
-            users: apiService => apiService.User.query().$promise,
-            tags: apiService => apiService.Tag.query().$promise
+            users: ($stateParams, apiService) => {
+                return apiService.User.query().$promise;
+            },
+            tags: ($stateParams, apiService) => {
+                if ($stateParams.tagIds) {
+                    return apiService.Tag.query({ids: $stateParams.tagIds}).$promise;
+                }
+
+                return new apiService.Tag();
+            }
         }
     });
 }).component('documentsPage', {
@@ -29,11 +37,16 @@ angular.module('app').config($stateProvider => {
     controller: function ($cookies, $state, appConfig, modalService) {
         this.currentUser = $cookies.getObject('currentUser');
         this.params = angular.copy($state.params);
-        this.params.tagIds = this.params.tagIds.split(',').map(tagId => ({id: tagId}));
         this.itemsPerPage = appConfig.itemsPerPage;
 
+        if (this.params.tagIds) {
+            this.params.tagIds = this.params.tagIds.split(',').map(tagId => ({id: tagId}));
+        } else {
+            this.params.tagIds = [];
+        }
+
         this.queryDocuments = params => {
-            if (params.hasOwnProperty('tagIds')) {
+            if (params && params.tagIds) {
                 params.tagIds = params.tagIds.map(tag => tag.id).join(',');
             }
 
