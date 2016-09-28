@@ -46,11 +46,15 @@ angular.module('app').config($stateProvider => {
         }
 
         this.queryDocuments = params => {
-            if (params && params.tagIds) {
-                params.tagIds = params.tagIds.map(tag => tag.id).join(',');
-            }
+            if (params) {
+                angular.extend(this.params, params);
 
-            angular.extend($state.params, params);
+                if (params.tagIds) {
+                    params.tagIds = params.tagIds.map(tag => tag.id).join(',');
+                }
+
+                angular.extend($state.params, params);
+            }
 
             this.documents.$query($state.params).then(documents => {
                 this.documents = documents;

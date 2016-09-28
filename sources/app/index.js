@@ -10,7 +10,7 @@ angular.module('app', [
     'ui.bootstrap', 'ui.router', 'ui.select',
     'pascalprecht.translate'
 ]).value('appConfig', {
-    backendUrl: 'http://localhost:7000/',
+    backendUrl: 'http://192.168.50.13:7000/',
     itemsPerPage: [20, 50]
 }).config(($locationProvider, $urlRouterProvider, $translateProvider, $compileProvider) => {
     $locationProvider.html5Mode(true).hashPrefix('!');
@@ -28,10 +28,11 @@ angular.module('app', [
 
     authService.check().catch(() => $state.go('auth'));
 
+    // TODO разобраться нормально с $transitions
     $transitions.onBefore({}, () => currentUser = $cookies.getObject('currentUser'));
 
     $transitions.onStart({to: 'index.*'}, () => !!currentUser);
-    $transitions.onError({to: 'index.*'}, () => $state.go('auth'));
+    $transitions.onError({to: 'index.*'}, () => $state.go('error'));
 
     $transitions.onStart({to: 'auth'}, () => !currentUser);
     $transitions.onError({to: 'auth'}, () => $state.go('index'));

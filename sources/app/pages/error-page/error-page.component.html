@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="col-sm-offset-3 col-sm-6">
+        <div style="text-align: center">
+            <h4>Можете собой гордиться, вы все сломали!</h4>
+            <p>Попробуйте вернуться <a ui-sref="index">назад</a></p>
+        </div>
+        <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
+            <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
+        </div>
+    </div>
+</div>
