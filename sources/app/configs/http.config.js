@@ -5,7 +5,7 @@
 angular.module('app').config($httpProvider => {
     $httpProvider.defaults.withCredentials = true;
     $httpProvider.interceptors.push('httpInterceptor');
-}).factory('httpInterceptor', ($rootScope) => {
+}).factory('httpInterceptor', $rootScope => {
     let pending = 0;
 
     return {
