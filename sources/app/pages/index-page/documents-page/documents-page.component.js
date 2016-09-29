@@ -14,12 +14,24 @@ angular.module('app').config($stateProvider => {
         reloadOnSearch: false,
         component: 'documentsPage',
         resolve: {
-            documents: ($stateParams, apiService) => apiService.Document.query($stateParams).$promise,
+            documents: ($stateParams, apiService) => {
+                if ($stateParams.tagIds) {
+                    // уникальные id которые int > 0
+                    $stateParams.tagIds = $stateParams.tagIds.split(',')
+                        .filter(tagId => !!parseInt(tagId)).unique();
+                }
+
+                return apiService.Document.query($stateParams).$promise;
+            },
             users: ($stateParams, apiService) => {
                 return apiService.User.query().$promise;
             },
             tags: ($stateParams, apiService) => {
                 if ($stateParams.tagIds) {
+                    // уникальные id которые int > 0
+                    $stateParams.tagIds = $stateParams.tagIds.split(',')
+                        .filter(tagId => !!parseInt(tagId)).unique();
+
                     return apiService.Tag.query({ids: $stateParams.tagIds}).$promise;
                 }
 
@@ -40,7 +52,8 @@ angular.module('app').config($stateProvider => {
         this.itemsPerPage = appConfig.itemsPerPage;
 
         if (this.params.tagIds) {
-            this.params.tagIds = this.params.tagIds.split(',').map(tagId => ({id: tagId}));
+            this.params.tagIds = this.params.tagIds.split(',')
+                .filter(tagId => !!parseInt(tagId)).unique().map(tagId => ({id: tagId}));
         } else {
             this.params.tagIds = [];
         }
@@ -50,7 +63,8 @@ angular.module('app').config($stateProvider => {
                 angular.extend(this.params, params);
 
                 if (params.tagIds) {
-                    params.tagIds = params.tagIds.map(tag => tag.id).join(',');
+                    params.tagIds = params.tagIds
+                        .map(tag => tag.id).filter(tagId => !!parseInt(tagId)).unique().join(',');
                 }
 
                 angular.extend($state.params, params);
