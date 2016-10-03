@@ -18,7 +18,7 @@ angular.module('app').config($stateProvider => {
                 if ($stateParams.tagIds) {
                     // уникальные id которые int > 0
                     $stateParams.tagIds = $stateParams.tagIds.split(',')
-                        .filter(tagId => !!parseInt(tagId)).unique();
+                        .filter(tagId => !!parseInt(tagId)).unique().join(',');
                 }
 
                 return apiService.Document.query($stateParams).$promise;
@@ -30,7 +30,7 @@ angular.module('app').config($stateProvider => {
                 if ($stateParams.tagIds) {
                     // уникальные id которые int > 0
                     $stateParams.tagIds = $stateParams.tagIds.split(',')
-                        .filter(tagId => !!parseInt(tagId)).unique();
+                        .filter(tagId => !!parseInt(tagId)).unique().join(',');
 
                     return apiService.Tag.query({ids: $stateParams.tagIds}).$promise;
                 }
