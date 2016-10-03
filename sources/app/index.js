@@ -25,7 +25,6 @@ angular.module('app', [
 
     authService.check().catch(() => $state.go('auth'));
 
-    // TODO разобраться нормально с $transitions
     $transitions.onBefore({}, () => currentUser = $cookies.getObject('currentUser'));
 
     $transitions.onStart({to: 'index.*'}, () => !!currentUser);
