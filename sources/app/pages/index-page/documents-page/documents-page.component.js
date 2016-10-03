@@ -46,10 +46,15 @@ angular.module('app').config($stateProvider => {
         tags: '<'
     },
     template: require('./documents-page.component.html'),
-    controller: function ($cookies, $state, appConfig, modalService) {
+    controller: function ($scope, $cookies, $state, appConfig, modalService, socketService) {
         this.currentUser = $cookies.getObject('currentUser');
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
+
+        socketService.subscribe('documents');
+        socketService.on('documents', 'documents update', () => {
+            this.queryDocuments();
+        });
 
         if (this.params.tagIds) {
             this.params.tagIds = this.params.tagIds.split(',')
@@ -78,6 +83,7 @@ angular.module('app').config($stateProvider => {
 
         this.showDocumentModal = documentId => {
             modalService.showDocumentModal(documentId).then(document => {
+                socketService.emit('documents', 'documents update');
                 this.queryDocuments();
             });
         };
@@ -89,5 +95,9 @@ angular.module('app').config($stateProvider => {
                 this.tags = tags;
             });
         };
+
+        $scope.$on('$destroy', () => {
+            socketService.unsubscribe('documents');
+        });
     }
 });
