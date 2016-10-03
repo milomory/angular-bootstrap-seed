@@ -98,7 +98,9 @@
         </td>
         <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
         <td class="hidden-xs hidden-sm">
-            <span ng-repeat="tag in document.tags">{{tag.name}}</span>
+            <span ng-repeat="tag in document.tags" ng-click="$ctrl.queryDocuments({tagId: tag.id + ''})">
+                {{tag.name}}<small ng-if="document.tags.length > $index + 1">, </small>
+            </span>
         </td>
         <td>
             <button class="btn btn-default btn-sm" ng-click="$ctrl.showDocumentModal(document.id)"

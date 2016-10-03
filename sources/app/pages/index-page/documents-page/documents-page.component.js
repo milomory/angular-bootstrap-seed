@@ -66,6 +66,19 @@ angular.module('app').config($stateProvider => {
 
         this.queryDocuments = params => {
             if (params) {
+                if (params.tagId) { // если один
+                    // params.tagIds = angular.copy(this.params.tagIds);
+                    // params.tagIds.push({id: params.tagId});
+                    // params.tagIds = params.tagIds.map(tag => tag.id).filter(tagId => !!parseInt(tagId)).unique();
+                    //
+                    // TODO убрать дублирование в select
+                    // params.tagIds = params.tagIds || angular.copy(this.params.tagIds);
+                    // params.tagIds.push({id: params.tagId + ''});
+                    // params.tagIds = params.tagIds.unique();
+                    // console.log(angular.copy(this.params.tagIds));
+                    delete params.tagId;
+                }
+
                 angular.extend(this.params, params);
 
                 if (params.tagIds) {
