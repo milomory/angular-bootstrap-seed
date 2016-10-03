@@ -54,6 +54,7 @@ angular.module('app').config($stateProvider => {
         socketService.subscribe('documents');
         socketService.on('documents', 'documents update', () => {
             this.queryDocuments();
+            this.queryTags();
         });
 
         if (this.params.tagIds) {
@@ -83,8 +84,10 @@ angular.module('app').config($stateProvider => {
 
         this.showDocumentModal = documentId => {
             modalService.showDocumentModal(documentId).then(document => {
-                socketService.emit('documents', 'documents update');
                 this.queryDocuments();
+                this.queryTags();
+
+                socketService.emit('documents', 'documents update');
             });
         };
 
