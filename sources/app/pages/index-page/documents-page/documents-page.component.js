@@ -66,25 +66,19 @@ angular.module('app').config($stateProvider => {
 
         this.queryDocuments = params => {
             if (params) {
-                if (params.tagId) { // если один
-                    // params.tagIds = angular.copy(this.params.tagIds);
-                    // params.tagIds.push({id: params.tagId});
-                    // params.tagIds = params.tagIds.map(tag => tag.id).filter(tagId => !!parseInt(tagId)).unique();
-                    //
-                    // TODO убрать дублирование в select
-                    // params.tagIds = params.tagIds || angular.copy(this.params.tagIds);
-                    // params.tagIds.push({id: params.tagId + ''});
-                    // params.tagIds = params.tagIds.unique();
-                    // console.log(angular.copy(this.params.tagIds));
-                    delete params.tagId;
-                }
+                Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
+                    let items = this.params[key].map(item => item.id);
+                    params[key].filter(item => items.indexOf(item.id) == -1).forEach(item => items.push(item.id));
+                    params[key] = items.map(item => ({id: item})).unique();
+                    // TODO update select
+                });
 
                 angular.extend(this.params, params);
 
-                if (params.tagIds) {
-                    params.tagIds = params.tagIds
-                        .map(tag => tag.id).filter(tagId => !!parseInt(tagId)).unique().join(',');
-                }
+                // обработка массива ids
+                Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
+                    params[key] = params[key].map(item => item.id).filter(id => !!parseInt(id)).unique().join(',');
+                });
 
                 angular.extend($state.params, params);
             }
