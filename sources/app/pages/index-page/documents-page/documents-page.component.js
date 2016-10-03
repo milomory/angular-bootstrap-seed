@@ -59,7 +59,7 @@ angular.module('app').config($stateProvider => {
 
         if (this.params.tagIds) {
             this.params.tagIds = this.params.tagIds.split(',')
-                .filter(tagId => !!parseInt(tagId)).unique().map(tagId => ({id: tagId}));
+                .filter(tagId => !!parseInt(tagId)).unique().map(tagId => ({id: +tagId}));
         } else {
             this.params.tagIds = [];
         }
@@ -68,16 +68,24 @@ angular.module('app').config($stateProvider => {
             if (params) {
                 Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
                     let items = this.params[key].map(item => item.id);
-                    params[key].filter(item => items.indexOf(item.id) == -1).forEach(item => items.push(item.id));
+
+                    params[key].filter(item => items.indexOf(+item.id) == -1).forEach(item => {
+                        // some magic (костыль) для обновления папы (TODO тут ошибка срется в консоль)
+                        let index = key.toLowerCase().indexOf('id');
+                        this[key.substr(0, index) + 's'].rows.push(item);
+                        console.log(this[key.substr(0, index) + 's'].rows);
+
+                        return items.push(+item.id);
+                    });
+
                     params[key] = items.map(item => ({id: item})).unique();
-                    // TODO update select
                 });
 
                 angular.extend(this.params, params);
 
                 // обработка массива ids
                 Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
-                    params[key] = params[key].map(item => item.id).filter(id => !!parseInt(id)).unique().join(',');
+                    params[key] = params[key].map(item => item.id).filter(id => !!parseInt(id)).join(',');
                 });
 
                 angular.extend($state.params, params);
@@ -99,11 +107,17 @@ angular.module('app').config($stateProvider => {
         };
 
         this.queryTags = params => {
-            if (!params.name) return;
+            if (params.name || params.ids) {
+                // обработка массива ids
+                Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
+                    params[key] = params[key].map(item => item.id).filter(id => !!parseInt(id)).join(',');
+                });
 
-            this.tags.$query(params).then(tags => {
-                this.tags = tags;
-            });
+                this.tags.$query(params).then(tags => {
+                    this.tags = tags;
+                    console.log(this.tags);
+                });
+            }
         };
 
         $scope.$on('$destroy', () => {

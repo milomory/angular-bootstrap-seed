@@ -98,7 +98,7 @@
         </td>
         <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
         <td class="hidden-xs hidden-sm">
-            <span ng-repeat="tag in document.tags" ng-click="$ctrl.queryDocuments({tagIds: [{id: tag.id + ''}]})">
+            <span ng-repeat="tag in document.tags track by $index" ng-click="$ctrl.queryDocuments({tagIds: [tag]})">
                 {{tag.name}}<small ng-if="document.tags.length > $index + 1">, </small>
             </span>
         </td>
