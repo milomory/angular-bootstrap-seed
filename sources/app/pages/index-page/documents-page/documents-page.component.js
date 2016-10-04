@@ -15,11 +15,12 @@ angular.module('app').config($stateProvider => {
         component: 'documentsPage',
         resolve: {
             documents: ($stateParams, apiService) => {
-                if ($stateParams.tagIds) {
-                    // уникальные id которые int > 0
-                    $stateParams.tagIds = $stateParams.tagIds.split(',')
-                        .filter(tagId => !!parseInt(tagId)).unique().join(',');
-                }
+                let params = $stateParams;
+                // преобразователь всех $stateParams, которые имеют ids, в строчки с уникальными number
+                Object.keys(params).filter(key => /ids/i.test(key) && params[key]).forEach(key => {
+                    params[key] = params[key].split(',').map(id => parseInt(id)).filter(id => !Number.isNaN(id))
+                        .unique().join(',');
+                });
 
                 return apiService.Document.query($stateParams).$promise;
             },
@@ -28,11 +29,14 @@ angular.module('app').config($stateProvider => {
             },
             tags: ($stateParams, apiService) => {
                 if ($stateParams.tagIds) {
-                    // уникальные id которые int > 0
-                    $stateParams.tagIds = $stateParams.tagIds.split(',')
-                        .filter(tagId => !!parseInt(tagId)).unique().join(',');
+                    // преобразователь $stateParams.tagIds в массив с уникальными number
+                    $stateParams.tagIds = $stateParams.tagIds.split(',').map(id => parseInt(id))
+                        .filter(id => !Number.isNaN(id)).unique();
 
-                    return apiService.Tag.query({ids: $stateParams.tagIds}).$promise;
+                    if ($stateParams.tagIds.length) {
+                        $stateParams.tagIds = $stateParams.tagIds.join(',');
+                        return apiService.Tag.query({ids: $stateParams.tagIds}).$promise;
+                    }
                 }
 
                 return new apiService.Tag();
@@ -51,50 +55,54 @@ angular.module('app').config($stateProvider => {
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
 
+        // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
+        Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
+            this.params[key] = this.params[key] ? this.params[key].split(',').map(id => ({id: parseInt(id)})) : [];
+        });
+
         socketService.subscribe('documents');
         socketService.on('documents', 'documents update', () => {
             this.queryDocuments();
             this.queryTags();
         });
 
-        if (this.params.tagIds) {
-            this.params.tagIds = this.params.tagIds.split(',')
-                .filter(tagId => !!parseInt(tagId)).unique().map(tagId => ({id: +tagId}));
-        } else {
-            this.params.tagIds = [];
-        }
-
         this.queryDocuments = params => {
             if (params) {
-                Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
-                    let items = this.params[key].map(item => item.id);
-
-                    params[key].filter(item => items.indexOf(+item.id) == -1).forEach(item => {
-                        // some magic (костыль) для обновления папы (TODO тут ошибка срется в консоль)
-                        let index = key.toLowerCase().indexOf('id');
-                        this[key.substr(0, index) + 's'].rows.push(item);
-                        console.log(this[key.substr(0, index) + 's'].rows);
-
-                        return items.push(+item.id);
-                    });
-
-                    params[key] = items.map(item => ({id: item})).unique();
+                Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
+                    let ids = this.params[key].map(item => item.id);
+                    ids = ids.concat(params[key].map(item => item.id).filter(id => ids.indexOf(id) == -1));
+                    // let paramIds = this.params[key].map(item => item.id);
+                    // let ids = params[key].filter(item => paramIds.indexOf(item.id) == -1).map(item => parseInt(item.id))
+                    // ids = ids.concat();
                 });
 
-                angular.extend(this.params, params);
+                // Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
+                //     let ids = this.params[key].map(item => parseInt(item.id));
+                //
+                //     params[key].filter(item => ids.indexOf(item.id) == -1).forEach(item => {
+                //         // костыль для обновления связанного массива
+                //         let index = key.toLowerCase().indexOf('id');
+                //         this[key.substr(0, index) + 's'].rows.push(item);
+                //
+                //         ids.push(parseInt(item.id));
+                //     });
+                //
+                //     params[key] = ids.map(id => ({id})).unique();
+                // });
+                //
+                // angular.extend(this.params, params);
+                //
+                // Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
+                //     params[key] = params[key].join(',');
+                // });
 
-                // обработка массива ids
-                Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
-                    params[key] = params[key].map(item => item.id).filter(id => !!parseInt(id)).join(',');
-                });
+                // angular.extend($state.params, params);
 
-                angular.extend($state.params, params);
+                // this.documents.$query($state.params).then(documents => {
+                //     this.documents = documents;
+                //     $state.go('.', $state.params);
+                // });
             }
-
-            this.documents.$query($state.params).then(documents => {
-                this.documents = documents;
-                $state.go('.', $state.params);
-            });
         };
 
         this.showDocumentModal = documentId => {
@@ -110,12 +118,11 @@ angular.module('app').config($stateProvider => {
             if (params.name || params.ids) {
                 // обработка массива ids
                 Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
-                    params[key] = params[key].map(item => item.id).filter(id => !!parseInt(id)).join(',');
+                    params[key] = params[key].extractKeyFromEachObject('id').join(',');
                 });
 
                 this.tags.$query(params).then(tags => {
                     this.tags = tags;
-                    console.log(this.tags);
                 });
             }
         };

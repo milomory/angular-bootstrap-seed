@@ -24,6 +24,4 @@ require('angular-ui-select');
 window.requireAll = requireContext => requireContext.keys().map(requireContext);
 window.io = require('socket.io-client/socket.io');
 
-Array.prototype.unique = function () {
-    return this.filter((item, i, arr) => arr.indexOf(item) == i);
-};
+require('./prototypes');
