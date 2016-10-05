@@ -68,10 +68,13 @@ angular.module('app').config($stateProvider => {
 
         this.queryDocuments = params => {
             if (params) {
-                // скрестиватель всех params которые array с this.params
+                // console.log(angular.copy(params));
+                // скресщиватель всех params которые array с this.params
+                // TODO перенести туда, где обновление конкретного массива
                 Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
                     let ids = this.params[key].map(item => item.id);
                     ids = ids.concat(params[key].map(item => item.id).filter(id => ids.indexOf(id) == -1));
+
                     params[key] = ids.map(id => ({id}));
                 });
 
@@ -87,10 +90,13 @@ angular.module('app').config($stateProvider => {
                 angular.extend($state.params, params);
 
                 // TODO remove undefined params
-                // TODO обновление связанного массива
 
                 this.documents.$query($state.params).then(documents => {
                     this.documents = documents;
+
+                    // обновление связанного списка
+                    this.queryTags({ids: $state.params.tagIds});
+
                     $state.go('.', $state.params);
                 });
             }
@@ -106,9 +112,19 @@ angular.module('app').config($stateProvider => {
         };
 
         this.queryTags = params => {
-            this.tags.$query(params).then(tags => {
-                this.tags = tags;
-            });
+            if (params.name || params.ids) {
+                this.tags.$query(params).then(tags => {
+                    params.ids = tags.rows.map(tag => tag.id);
+
+                    this.tags = tags;
+
+                    // маленький костыльчик
+                    this.params.tagIds = this.params.tagIds.map(tag => {
+                        let index = params.ids.indexOf(tag.id);
+                        return Object.assign(tag, {name: tags.rows[index].name});
+                    });
+                });
+            }
         };
 
         $scope.$on('$destroy', () => {

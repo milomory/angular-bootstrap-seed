@@ -29,7 +29,7 @@
                                title="{{'Tags' | translate}}"
                                ng-change="$ctrl.queryDocuments({tagIds: $ctrl.params.tagIds})">
                         <ui-select-match placeholder="{{'Tags' | translate}}">
-                            <span>{{$item.name}}</span>
+                            <span>{{$item.name || 'Loading...'}}</span>
                         </ui-select-match>
                         <ui-select-choices
                                 repeat="tag in $ctrl.tags.rows | filter: {name: $select.search} track by tag.id"
