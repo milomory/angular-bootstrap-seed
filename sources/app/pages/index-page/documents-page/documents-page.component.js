@@ -66,6 +66,11 @@ angular.module('app').config($stateProvider => {
             this.queryTags({ids: $state.params.tagIds});
         });
 
+        /**
+         * @param {Object} [params]
+         * @param {string} [params.creatorId]
+         * @param {string} [params.tagIds]
+         */
         this.queryDocuments = params => {
             // TODO придумать как оптимизировать
             if (params) {
@@ -115,7 +120,7 @@ angular.module('app').config($stateProvider => {
         };
 
         /**
-         * @param {Object} params
+         * @param {Object} [params]
          * @param {string} [params.name]
          * @param {string} [params.ids]
          */
