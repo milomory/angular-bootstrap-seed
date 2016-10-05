@@ -5,8 +5,8 @@
 angular.module('app').service('modalService', function ($document, $uibModal) {
     /**
      * @name modalService#showUserModal
-     * @param userId
-     * @return Promise
+     * @param {number} userId
+     * @return {Promise}
      */
     this.showUserModal = userId => $uibModal.open({
         component: 'userModal',
@@ -24,8 +24,8 @@ angular.module('app').service('modalService', function ($document, $uibModal) {
 
     /**
      * @name modalService#showDocumentModal
-     * @param documentId
-     * @return Promise
+     * @param {number} documentId
+     * @return {Promise}
      */
     this.showDocumentModal = documentId => $uibModal.open({
         component: 'documentModal',
@@ -44,8 +44,8 @@ angular.module('app').service('modalService', function ($document, $uibModal) {
 
     /**
      * @name modalService#showTagModal
-     * @param tagId
-     * @return Promise
+     * @param {number} tagId
+     * @return {Promise}
      */
     this.showTagModal = tagId => $uibModal.open({
         component: 'tagModal',

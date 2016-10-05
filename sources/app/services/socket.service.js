@@ -8,10 +8,10 @@ angular.module('app').service('socketService', function (appConfig) {
 
     /**
      * @name socketService#subscribe
-     * @param roomName
-     * @param [callback]
+     * @param {string} roomName
+     * @param {Function} [callback]
      */
-    this.subscribe = (roomName, callback = () => null) => {
+    this.subscribe = (roomName, callback = () => {}) => {
         rooms[roomName] = [];
 
         socket.emit('subscribe', roomName);
@@ -20,10 +20,10 @@ angular.module('app').service('socketService', function (appConfig) {
 
     /**
      * @name socketService#unsubscribe
-     * @param roomName
-     * @param [callback]
+     * @param {string} roomName
+     * @param {Function} [callback]
      */
-    this.unsubscribe = (roomName, callback = () => null) => {
+    this.unsubscribe = (roomName, callback = () => {}) => {
         rooms[roomName].forEach(eventName => socket.removeListener(eventName));
         delete rooms[roomName];
 
@@ -33,12 +33,12 @@ angular.module('app').service('socketService', function (appConfig) {
 
     /**
      * @name socketService#emit
-     * @param roomName
-     * @param eventName
+     * @param {string} roomName
+     * @param {string} eventName
      * @param data
-     * @param [callback]
+     * @param {Function} [callback]
      */
-    this.emit = (roomName, eventName, data, callback = () => null) => {
+    this.emit = (roomName, eventName, data, callback = () => {}) => {
         if (rooms.hasOwnProperty(roomName)) {
             rooms[roomName].push(eventName);
         }
@@ -49,11 +49,11 @@ angular.module('app').service('socketService', function (appConfig) {
 
     /**
      * @name socketService#on
-     * @param roomName
-     * @param eventName
-     * @param [callback]
+     * @param {string} roomName
+     * @param {string} eventName
+     * @param {Function} [callback]
      */
-    this.on = (roomName, eventName, callback = () => null) => {
+    this.on = (roomName, eventName, callback = () => {}) => {
         if (rooms.hasOwnProperty(roomName)) {
             rooms[roomName].push(eventName);
         }

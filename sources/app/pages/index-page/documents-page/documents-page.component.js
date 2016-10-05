@@ -102,6 +102,9 @@ angular.module('app').config($stateProvider => {
             }
         };
 
+        /**
+         * @param {number} documentId
+         */
         this.showDocumentModal = documentId => {
             modalService.showDocumentModal(documentId).then(document => {
                 this.queryDocuments();
@@ -111,6 +114,11 @@ angular.module('app').config($stateProvider => {
             });
         };
 
+        /**
+         * @param {Object} params
+         * @param {string} [params.name]
+         * @param {string} [params.ids]
+         */
         this.queryTags = params => {
             if (params.name || params.ids) {
                 this.tags.$query(params).then(tags => {

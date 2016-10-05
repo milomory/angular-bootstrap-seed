@@ -5,7 +5,7 @@
 angular.module('app').service('authService', function ($http, $q, $cookies, appConfig) {
     /**
      * @name authService#check
-     * @return Promise
+     * @return {Promise}
      */
     this.check = () => $http.get(`${appConfig.backendUrl}check`).then(res => {
         $cookies.putObject('currentUser', res.data);
@@ -17,8 +17,10 @@ angular.module('app').service('authService', function ($http, $q, $cookies, appC
 
     /**
      * @name authService#signin
-     * @param user
-     * @return Promise
+     * @param {Object} user
+     * @param {string} user.username
+     * @param {string} user.password
+     * @return {Promise}
      */
     this.signin = user => $http.post(`${appConfig.backendUrl}signin`, user).then(res => {
         $cookies.putObject('currentUser', res.data);
@@ -30,8 +32,10 @@ angular.module('app').service('authService', function ($http, $q, $cookies, appC
 
     /**
      * @name authService#signup
-     * @param user
-     * @return Promise
+     * @param {Object} user
+     * @param {string} user.username
+     * @param {string} user.password
+     * @return {Promise}
      */
     this.signup = user => $http.post(`${appConfig.backendUrl}signup`, user).then(res => {
         $cookies.putObject('currentUser', res.data);
@@ -43,7 +47,7 @@ angular.module('app').service('authService', function ($http, $q, $cookies, appC
 
     /**
      * @name authService#signout
-     * @return Promise
+     * @return {Promise}
      */
     this.signout = () => $http.delete(`${appConfig.backendUrl}signout`).then(res => {
         $cookies.remove('currentUser');
