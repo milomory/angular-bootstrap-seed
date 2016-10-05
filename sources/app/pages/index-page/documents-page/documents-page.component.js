@@ -68,40 +68,29 @@ angular.module('app').config($stateProvider => {
 
         this.queryDocuments = params => {
             if (params) {
+                // скрестиватель всех params которые array с this.params
                 Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
                     let ids = this.params[key].map(item => item.id);
                     ids = ids.concat(params[key].map(item => item.id).filter(id => ids.indexOf(id) == -1));
-                    // let paramIds = this.params[key].map(item => item.id);
-                    // let ids = params[key].filter(item => paramIds.indexOf(item.id) == -1).map(item => parseInt(item.id))
-                    // ids = ids.concat();
+                    params[key] = ids.map(id => ({id}));
                 });
 
-                // Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
-                //     let ids = this.params[key].map(item => parseInt(item.id));
-                //
-                //     params[key].filter(item => ids.indexOf(item.id) == -1).forEach(item => {
-                //         // костыль для обновления связанного массива
-                //         let index = key.toLowerCase().indexOf('id');
-                //         this[key.substr(0, index) + 's'].rows.push(item);
-                //
-                //         ids.push(parseInt(item.id));
-                //     });
-                //
-                //     params[key] = ids.map(id => ({id})).unique();
-                // });
-                //
-                // angular.extend(this.params, params);
-                //
-                // Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
-                //     params[key] = params[key].join(',');
-                // });
+                angular.extend(this.params, params);
 
-                // angular.extend($state.params, params);
+                // преобразователь всех params которые array в string
+                Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
+                    params[key] = params[key].map(item => item.id).join(',');
+                });
 
-                // this.documents.$query($state.params).then(documents => {
-                //     this.documents = documents;
-                //     $state.go('.', $state.params);
-                // });
+                angular.extend($state.params, params);
+
+                // TODO remove undefined params
+                // TODO обновление связанного массива
+
+                this.documents.$query($state.params).then(documents => {
+                    this.documents = documents;
+                    $state.go('.', $state.params);
+                });
             }
         };
 
@@ -115,16 +104,9 @@ angular.module('app').config($stateProvider => {
         };
 
         this.queryTags = params => {
-            if (params.name || params.ids) {
-                // обработка массива ids
-                Object.keys(params).filter(key => angular.isArray(params[key])).forEach(key => {
-                    params[key] = params[key].extractKeyFromEachObject('id').join(',');
-                });
-
-                this.tags.$query(params).then(tags => {
-                    this.tags = tags;
-                });
-            }
+            this.tags.$query(params).then(tags => {
+                this.tags = tags;
+            });
         };
 
         $scope.$on('$destroy', () => {
