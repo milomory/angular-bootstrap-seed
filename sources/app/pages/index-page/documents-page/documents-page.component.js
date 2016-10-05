@@ -63,19 +63,20 @@ angular.module('app').config($stateProvider => {
         socketService.subscribe('documents');
         socketService.on('documents', 'documents update', () => {
             this.queryDocuments();
-            this.queryTags();
+            this.queryTags({ids: $state.params.tagIds});
         });
 
         this.queryDocuments = params => {
+            // TODO придумать как оптимизировать
             if (params) {
-                // console.log(angular.copy(params));
                 // скресщиватель всех params которые array с this.params
-                // TODO перенести туда, где обновление конкретного массива
                 Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
-                    let ids = this.params[key].map(item => item.id);
-                    ids = ids.concat(params[key].map(item => item.id).filter(id => ids.indexOf(id) == -1));
+                    let param = this.params[key].concat(params[key]).reduce((a, b) => {
+                        a[b.id] = Object.assign(a[b.id] || {}, b);
+                        return a;
+                    }, {});
 
-                    params[key] = ids.map(id => ({id}));
+                    params[key] = Object.keys(param).map(key => param[key]);
                 });
 
                 // расширитель this.params
@@ -89,14 +90,13 @@ angular.module('app').config($stateProvider => {
                 // расширитель $state.params
                 angular.extend($state.params, params);
 
-                // TODO remove undefined params
+                // удалятор нула
+                Object.keys($state.params).filter(key => !$state.params[key]).forEach(key => {
+                    delete $state.params[key];
+                });
 
                 this.documents.$query($state.params).then(documents => {
                     this.documents = documents;
-
-                    // обновление связанного списка
-                    this.queryTags({ids: $state.params.tagIds});
-
                     $state.go('.', $state.params);
                 });
             }
@@ -105,7 +105,7 @@ angular.module('app').config($stateProvider => {
         this.showDocumentModal = documentId => {
             modalService.showDocumentModal(documentId).then(document => {
                 this.queryDocuments();
-                this.queryTags();
+                this.queryTags({ids: $state.params.tagIds});
 
                 socketService.emit('documents', 'documents update');
             });
@@ -114,15 +114,7 @@ angular.module('app').config($stateProvider => {
         this.queryTags = params => {
             if (params.name || params.ids) {
                 this.tags.$query(params).then(tags => {
-                    params.ids = tags.rows.map(tag => tag.id);
-
                     this.tags = tags;
-
-                    // маленький костыльчик
-                    this.params.tagIds = this.params.tagIds.map(tag => {
-                        let index = params.ids.indexOf(tag.id);
-                        return Object.assign(tag, {name: tags.rows[index].name});
-                    });
                 });
             }
         };
