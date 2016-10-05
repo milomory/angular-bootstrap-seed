@@ -96,9 +96,9 @@ angular.module('app').config($stateProvider => {
                 angular.extend($state.params, params);
 
                 // удалятор нула
-                // Object.keys($state.params).filter(key => !$state.params[key]).forEach(key => {
-                //     delete $state.params[key];
-                // });
+                Object.keys($state.params).filter(key => !$state.params[key]).forEach(key => {
+                    $state.params[key] = undefined;
+                });
 
                 this.documents.$query($state.params).then(documents => {
                     this.documents = documents;
