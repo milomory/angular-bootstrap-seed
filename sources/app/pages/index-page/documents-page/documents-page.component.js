@@ -75,6 +75,7 @@ angular.module('app').config($stateProvider => {
                     params[key] = ids.map(id => ({id}));
                 });
 
+                // расширитель this.params
                 angular.extend(this.params, params);
 
                 // преобразователь всех params которые array в string
@@ -82,6 +83,7 @@ angular.module('app').config($stateProvider => {
                     params[key] = params[key].map(item => item.id).join(',');
                 });
 
+                // расширитель $state.params
                 angular.extend($state.params, params);
 
                 // TODO remove undefined params
