@@ -38,6 +38,10 @@ angular.module('app').component('documentModal', {
             });
         };
 
+        /**
+         * @param {Object} params
+         * @param {string} params.name
+         */
         this.queryTags = params => {
             if (!params.name) return;
 
@@ -46,6 +50,9 @@ angular.module('app').component('documentModal', {
             });
         };
 
+        /**
+         * @param {number} tagId
+         */
         this.showTagModal = tagId => {
             modalService.showTagModal(tagId).then(tag => {
                 this.document.tags = this.document.tags || [];
