@@ -15,3 +15,11 @@ Array.prototype.unique = function () {
 String.prototype.capitalize = function () {
     return this[0].toUpperCase() + this.substr(1).toLowerCase();
 };
+
+/**
+ * @param {Object} object
+ * @return {Array}
+ */
+Object.values = function (object) {
+    return Object.keys(object).map(key => object[key]);
+};

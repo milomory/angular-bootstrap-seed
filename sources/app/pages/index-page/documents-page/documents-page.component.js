@@ -15,12 +15,11 @@ angular.module('app').config($stateProvider => {
         component: 'documentsPage',
         resolve: {
             documents: ($stateParams, apiService) => {
-                let params = $stateParams;
-                // преобразователь всех $stateParams, которые имеют ids, в строчки с уникальными number
-                Object.keys(params).filter(key => /ids/i.test(key) && params[key]).forEach(key => {
-                    params[key] = params[key].split(',').map(id => parseInt(id)).filter(id => !Number.isNaN(id))
-                        .unique().join(',');
-                });
+                // преобразователь $stateParams которые имеют ids в строку уникальных number
+                Object.keys($stateParams).filter(key => /ids/i.test(key) && $stateParams[key]).reduce((params, key) => {
+                    params[key] = $stateParams[key].split(',').map(Number).filter(Boolean).unique().join(',');
+                    return params;
+                }, $stateParams);
 
                 return apiService.Document.query($stateParams).$promise;
             },
@@ -30,8 +29,7 @@ angular.module('app').config($stateProvider => {
             tags: ($stateParams, apiService) => {
                 if ($stateParams.tagIds) {
                     // преобразователь $stateParams.tagIds в массив с уникальными number
-                    $stateParams.tagIds = $stateParams.tagIds.split(',').map(id => parseInt(id))
-                        .filter(id => !Number.isNaN(id)).unique();
+                    $stateParams.tagIds = $stateParams.tagIds.split(',').map(Number).filter(Boolean).unique();
 
                     if ($stateParams.tagIds.length) {
                         $stateParams.tagIds = $stateParams.tagIds.join(',');
@@ -72,33 +70,32 @@ angular.module('app').config($stateProvider => {
          * @param {string} [params.tagIds]
          */
         this.queryDocuments = params => {
-            // TODO придумать как оптимизировать
             if (params) {
-                // скресщиватель всех params которые array с this.params
-                Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
-                    let param = this.params[key].concat(params[key]).reduce((a, b) => {
-                        a[b.id] = Object.assign(a[b.id] || {}, b);
-                        return a;
-                    }, {});
+                // ВНИМАНИЕ! немного выебонов (TODO оптимизировать еще немного)
+                Object.keys(params).forEach(key => {
+                    if (Array.isArray(params[key]) && /ids/i.test(key)) {
+                        // скресщиватель всех params которые array с this.params
+                        params[key] = this.params[key].concat(params[key]).reduce((param, item) => {
+                            param[item.id] = Object.assign(param[item.id] || {}, item);
+                            return param;
+                        }, {});
 
-                    params[key] = Object.keys(param).map(key => param[key]);
+                        // params[key] = Object.values(params[key]);
+                        params[key] = Object.keys(params[key]).map(id => params[key][id]);
+
+                        $state.params[key] = params[key].map(item => item.id).join(',') || undefined;
+                    } else {
+                        $state.params[key] = params[key];
+                    }
+
+                    this.params[key] = params[key];
                 });
 
-                // расширитель this.params
-                angular.extend(this.params, params);
-
-                // преобразователь всех params которые array в string
-                Object.keys(params).filter(key => Array.isArray(params[key])).forEach(key => {
-                    params[key] = params[key].map(item => item.id).join(',');
-                });
-
-                // расширитель $state.params
-                angular.extend($state.params, params);
-
-                // удалятор нула
-                Object.keys($state.params).filter(key => !$state.params[key]).forEach(key => {
-                    $state.params[key] = undefined;
-                });
+                console.groupCollapsed('params changed');
+                console.log('this.params', this.params);
+                console.log('$state.params', $state.params);
+                console.log('params', params);
+                console.groupEnd();
 
                 this.documents.$query($state.params).then(documents => {
                     this.documents = documents;
