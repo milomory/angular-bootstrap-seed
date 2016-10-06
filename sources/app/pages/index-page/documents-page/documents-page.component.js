@@ -54,8 +54,13 @@ angular.module('app').config($stateProvider => {
         this.itemsPerPage = appConfig.itemsPerPage;
 
         // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
+        // let hui = Object.keys(this.params).filter(key => /ids/i.test(key)).map(key => {
+        //     console.log(key);
+        //     return
+        // });
+
         Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
-            this.params[key] = this.params[key] ? this.params[key].split(',').map(id => ({id: parseInt(id)})) : [];
+            this.params[key] = (this.params[key] || '').split(',').map(Number).filter(Boolean).unique().map(id => ({id}));
         });
 
         socketService.subscribe('documents');
@@ -80,7 +85,6 @@ angular.module('app').config($stateProvider => {
                             return param;
                         }, {});
 
-                        // params[key] = Object.values(params[key]);
                         params[key] = Object.keys(params[key]).map(id => params[key][id]);
 
                         $state.params[key] = params[key].map(item => item.id).join(',') || undefined;
