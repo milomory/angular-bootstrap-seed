@@ -55,7 +55,7 @@ angular.module('app').config($stateProvider => {
 
         // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
         Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
-            this.params[key] = (this.params[key] || '').split(',').map(Number).filter(Boolean).unique().map(id => ({id}))
+            this.params[key] = (this.params[key] || '').split(',').map(Number).filter(Boolean).unique().map(id => ({id}));
         });
 
         socketService.subscribe('documents');
