@@ -16,10 +16,10 @@ angular.module('app').config($stateProvider => {
         resolve: {
             documents: ($stateParams, apiService) => {
                 // преобразователь $stateParams которые имеют ids в строку уникальных number
-                Object.keys($stateParams).filter(key => /ids/i.test(key) && $stateParams[key]).reduce((params, key) => {
-                    params[key] = $stateParams[key].split(',').map(Number).filter(Boolean).unique().join(',');
-                    return params;
-                }, $stateParams);
+                // TODO сделать чтобы не выезжало
+                Object.keys($stateParams).filter(key => /ids$/i.test(key) && $stateParams[key]).reduce((params, key) =>
+                    Object.assign(params, {[params[key]]: $stateParams[key].split(',').map(Number).filter(Boolean).unique().join(',')}), $stateParams
+                );
 
                 return apiService.Document.query($stateParams).$promise;
             },
