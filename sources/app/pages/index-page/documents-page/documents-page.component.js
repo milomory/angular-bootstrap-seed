@@ -16,9 +16,9 @@ angular.module('app').config($stateProvider => {
         resolve: {
             documents: ($stateParams, apiService) => {
                 // преобразователь $stateParams которые имеют ids в строку уникальных number
-                // TODO сделать чтобы не выезжало
                 Object.keys($stateParams).filter(key => /ids$/i.test(key) && $stateParams[key]).reduce((params, key) =>
-                    Object.assign(params, {[params[key]]: $stateParams[key].split(',').map(Number).filter(Boolean).unique().join(',')}), $stateParams
+                    Object.assign(params, {[params[key]]: $stateParams[key].split(',').map(Number).filter(Boolean)
+                        .unique().join(',')}), $stateParams
                 );
 
                 return apiService.Document.query($stateParams).$promise;
@@ -55,7 +55,7 @@ angular.module('app').config($stateProvider => {
 
         // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
         Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
-            this.params[key] = (this.params[key] || '').split(',').map(Number).filter(Boolean).unique().map(id => ({id}));
+            this.params[key] = (this.params[key] || '').split(',').map(Number).filter(Boolean).unique().map(id => ({id}))
         });
 
         socketService.subscribe('documents');
