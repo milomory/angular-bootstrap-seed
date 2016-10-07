@@ -54,11 +54,6 @@ angular.module('app').config($stateProvider => {
         this.itemsPerPage = appConfig.itemsPerPage;
 
         // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
-        // let hui = Object.keys(this.params).filter(key => /ids/i.test(key)).map(key => {
-        //     console.log(key);
-        //     return
-        // });
-
         Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
             this.params[key] = (this.params[key] || '').split(',').map(Number).filter(Boolean).unique().map(id => ({id}));
         });
@@ -77,12 +72,12 @@ angular.module('app').config($stateProvider => {
         this.queryDocuments = params => {
             if (params) {
                 // ВНИМАНИЕ! немного выебонов (TODO оптимизировать еще немного)
+                // TODO в этом месте недостаточно выебонов. Может, стоит добавить еще [больше](http://lurkmore.to)
                 Object.keys(params).forEach(key => {
-                    if (Array.isArray(params[key]) && /ids/i.test(key)) {
+                    if (Array.isArray(params[key]) && /ids$/i.test(key)) {
                         // скресщиватель всех params которые array с this.params
                         params[key] = this.params[key].concat(params[key]).reduce((param, item) => {
-                            param[item.id] = Object.assign(param[item.id] || {}, item);
-                            return param;
+                            return Object.assign(param, {[item.id]: Object.assign(param[item.id] || {}, item)});
                         }, {});
 
                         params[key] = Object.keys(params[key]).map(id => params[key][id]);
