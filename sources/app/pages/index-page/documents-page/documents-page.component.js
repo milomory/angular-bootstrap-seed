@@ -71,9 +71,9 @@ angular.module('app').config($stateProvider => {
          */
         this.queryDocuments = params => {
             if (params) {
-                // ВНИМАНИЕ! немного выебонов (TODO оптимизировать еще немного)
-                // TODO в этом месте недостаточно выебонов. Может, стоит добавить еще [больше](http://lurkmore.to) ?
                 Object.keys(params).forEach(key => {
+                    $state.params[key] = params[key];
+
                     if (Array.isArray(params[key]) && /ids$/i.test(key)) {
                         // скресщиватель всех params которые array с this.params
                         params[key] = this.params[key].concat(params[key]).reduce((param, item) =>
@@ -82,8 +82,6 @@ angular.module('app').config($stateProvider => {
 
                         params[key] = Object.keys(params[key]).map(id => params[key][id]);
                         $state.params[key] = params[key].map(item => item.id).join(',') || undefined;
-                    } else {
-                        $state.params[key] = params[key];
                     }
 
                     this.params[key] = params[key];
@@ -94,12 +92,12 @@ angular.module('app').config($stateProvider => {
                 console.log('$state.params', $state.params);
                 console.log('params', params);
                 console.groupEnd();
-
-                this.documents.$query($state.params).then(documents => {
-                    this.documents = documents;
-                    $state.go('.', $state.params);
-                });
             }
+
+            this.documents.$query($state.params).then(documents => {
+                this.documents = documents;
+                $state.go('.', $state.params);
+            });
         };
 
         /**

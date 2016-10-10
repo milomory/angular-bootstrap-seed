@@ -38,7 +38,7 @@ angular.module('app').service('modalService', function ($document, $uibModal) {
 
                 return apiService.Document.get({id: documentId}).$promise;
             },
-            tags: apiService => apiService.Tag.query().$promise
+            tags: apiService => new apiService.Tag()
         }
     }).result;
 
