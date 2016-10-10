@@ -78,7 +78,7 @@
                     ng-click="$ctrl.saveUser()">
                 <i class="fa fa-save"></i> {{'Save' | translate}}
             </button>
-            <button class="btn btn-danger" ng-disabled="userForm.$invalid || $ctrl.loading"
+            <button class="btn btn-danger" ng-disabled="$ctrl.loading"
                     ng-if="$ctrl.user.id && $ctrl.currentUser.id != $ctrl.user.id && !$ctrl.user.deletedAt"
                     nk-confirm="{{'Delete user?' | translate}}" ng-click="$ctrl.removeUser()">
                 <i class="fa fa-remove"></i> {{'Delete' | translate}}

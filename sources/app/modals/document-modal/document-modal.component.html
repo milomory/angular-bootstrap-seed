@@ -67,7 +67,7 @@
                     ng-click="$ctrl.saveDocument()">
                 <i class="fa fa-save"></i> {{'Save' | translate}}
             </button>
-            <button class="btn btn-danger" ng-disabled="documentForm.$invalid || $ctrl.loading"
+            <button class="btn btn-danger" ng-disabled="$ctrl.loading"
                     ng-if="$ctrl.document.id && ($ctrl.currentUser.id == $ctrl.document.creatorId || $ctrl.currentUser.isAdmin)"
                     nk-confirm="{{'Delete document?' | translate}}" ng-click="$ctrl.removeDocument()">
                 <i class="fa fa-remove"></i> {{'Delete' | translate}}

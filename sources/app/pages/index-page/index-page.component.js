@@ -10,9 +10,10 @@ angular.module('app').config($stateProvider => {
     });
 }).component('indexPage', {
     template: require('./index-page.component.html'),
-    controller: function ($scope, $cookies, $state, authService, modalService) {
-        $scope.$on('errorMessage', (event, message) => this.errorMessage = message);
-        $scope.$on('loading', (event, loading) => this.loading = loading);
+    controller: function ($rootScope, $cookies, $state, authService, modalService, socketService) {
+        $rootScope.$on('errorMessage', (event, message) => this.errorMessage = message);
+        $rootScope.$on('currentUser', (event, currentUser) => this.currentUser = currentUser);
+        $rootScope.$on('loading', (event, loading) => this.loading = loading);
 
         this.currentUser = $cookies.getObject('currentUser');
 
@@ -23,6 +24,7 @@ angular.module('app').config($stateProvider => {
         this.showUserModal = () => {
             modalService.showUserModal(this.currentUser.id).then(user => {
                 $cookies.putObject('currentUser', this.currentUser = user);
+                socketService.emit('users', 'users update');
             });
         };
     }

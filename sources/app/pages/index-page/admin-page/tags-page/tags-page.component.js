@@ -4,45 +4,40 @@
 
 angular.module('app').config($stateProvider => {
     $stateProvider.state({
-        name: 'index.admin.users',
-        url: '/users?page&limit&fullname&scopes',
+        name: 'index.admin.tags',
+        url: '/tags?page&limit&name&scopes',
         params: {
             page: {value: '1', squash: true},
             limit: {value: '10', squash: true},
             scopes: {value: 'documents', squash: true}
         },
         reloadOnSearch: false,
-        component: 'usersPage',
+        component: 'tagsPage',
         resolve: {
-            users: ($stateParams, apiService) => {
-                return apiService.User.query($stateParams).$promise;
+            tags: ($stateParams, apiService) => {
+                return apiService.Tag.query($stateParams).$promise;
             }
         }
     });
-}).component('usersPage', {
+}).component('tagsPage', {
     bindings: {
-        users: '<'
+        tags: '<'
     },
-    template: require('./users-page.component.html'),
-    controller: function ($scope, $rootScope, $cookies, $state, appConfig, modalService, socketService) {
-        $rootScope.$on('currentUser', (event, currentUser) => { // update user in list
-            let index = this.users.rows.map(item => item.id).indexOf(currentUser.id);
-            if (index != -1) this.users.rows[index] = angular.copy(currentUser);
-        });
-
+    template: require('./tags-page.component.html'),
+    controller: function ($scope, $cookies, $state, appConfig, modalService, socketService) {
         this.currentUser = $cookies.getObject('currentUser');
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
 
-        socketService.subscribe('users');
-        socketService.on('users', 'users update', () => {
-            this.queryUsers();
+        socketService.subscribe('tags');
+        socketService.on('tags', 'tags update', () => {
+            this.queryTags();
         });
 
         /**
          * @param {Object} [params]
          */
-        this.queryUsers = params => {
+        this.queryTags = params => {
             if (params) {
                 Object.keys(params).forEach(key => {
                     $state.params[key] = this.params[key] = params[key];
@@ -55,25 +50,25 @@ angular.module('app').config($stateProvider => {
                 console.groupEnd();
             }
 
-            this.users.$query($state.params).then(users => {
-                this.users = users;
+            this.tags.$query($state.params).then(tags => {
+                this.tags = tags;
                 $state.go('.', $state.params);
             });
         };
 
         /**
-         * @param {number} userId
+         * @param {number} tagId
          */
-        this.showUserModal = userId => {
-            modalService.showUserModal(userId).then(user => {
-                this.queryUsers();
+        this.showTagModal = tagId => {
+            modalService.showTagModal(tagId).then(tag => {
+                this.queryTags();
 
-                socketService.emit('users', 'users update');
+                socketService.emit('tags', 'tags update');
             });
         };
 
         $scope.$on('$destroy', () => {
-            socketService.unsubscribe('users');
+            socketService.unsubscribe('tags');
         });
     }
 });
