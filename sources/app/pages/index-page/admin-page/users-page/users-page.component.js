@@ -24,12 +24,7 @@ angular.module('app').config($stateProvider => {
         users: '<'
     },
     template: require('./users-page.component.html'),
-    controller: function ($scope, $rootScope, $cookies, $state, appConfig, modalService, socketService) {
-        $rootScope.$on('currentUser', (event, currentUser) => { // update user in list
-            let index = this.users.rows.map(item => item.id).indexOf(currentUser.id);
-            if (index != -1) this.users.rows[index] = angular.copy(currentUser);
-        });
-
+    controller: function ($scope, $cookies, $state, appConfig, modalService, socketService) {
         this.currentUser = $cookies.getObject('currentUser');
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
@@ -68,6 +63,7 @@ angular.module('app').config($stateProvider => {
             modalService.showUserModal(userId).then(user => {
                 this.queryUsers();
 
+                socketService.emit(`user${user.id}`, `user${user.id} update`, user);
                 socketService.emit('users', 'users update');
             });
         };

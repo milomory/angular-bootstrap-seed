@@ -12,10 +12,15 @@ angular.module('app').config($stateProvider => {
     template: require('./index-page.component.html'),
     controller: function ($rootScope, $cookies, $state, authService, modalService, socketService) {
         $rootScope.$on('errorMessage', (event, message) => this.errorMessage = message);
-        $rootScope.$on('currentUser', (event, currentUser) => this.currentUser = currentUser);
         $rootScope.$on('loading', (event, loading) => this.loading = loading);
 
         this.currentUser = $cookies.getObject('currentUser');
+
+        socketService.subscribe(`user${this.currentUser.id}`);
+        socketService.on(`user${this.currentUser.id}`, `user${this.currentUser.id} update`, currentUser => {
+            $cookies.putObject('currentUser', this.currentUser = currentUser);
+            $rootScope.$applyAsync();
+        });
 
         this.signout = () => {
             authService.signout().then(() => $state.go('auth'));
@@ -27,5 +32,9 @@ angular.module('app').config($stateProvider => {
                 socketService.emit('users', 'users update');
             });
         };
+
+        $rootScope.$on('$destroy', () => {
+            socketService.unsubscribe(`user${this.currentUser.id}`);
+        });
     }
 });

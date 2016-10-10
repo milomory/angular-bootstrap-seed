@@ -19,14 +19,7 @@ angular.module('app').component('userModal', {
         this.saveUser = () => {
             let user = angular.copy(this.user);
             user.$save().then(user => {
-                angular.extend(this.user, user);
-
-                if (this.user.id == this.currentUser.id) {
-                    $cookies.putObject('currentUser', this.user);
-                    $scope.$emit('currentUser', this.user);
-                }
-
-                this.close({$value: this.user});
+                this.close({$value: angular.extend(this.user, user)});
             }).finally(() => {
                 delete this.user.localUser;
             });
