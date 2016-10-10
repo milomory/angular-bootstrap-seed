@@ -1,0 +1,68 @@
+<div class="well well-sm clearfix">
+    <nk-search-form ng-model="$ctrl.params.fullname" ng-change="$ctrl.queryUsers({fullname: $value})"></nk-search-form>
+    <form name="filterForm" novalidate uib-collapse="!$ctrl.showFilter">
+        <div class="form-group">
+            <label for="limit" class="control-label">{{'Show on page' | translate}}</label>
+            <div class="input-group input-group-sm">
+                <select class="form-control" nk-convert-to-number ng-model="$ctrl.params.limit"
+                        title="{{'Show on page' | translate}}" id="limit" name="limit"
+                        ng-change="$ctrl.queryUsers({limit: $ctrl.params.limit})">
+                    <option value="10">10</option>
+                    <option ng-repeat="limit in $ctrl.itemsPerPage" value="{{::limit}}">{{::limit}}</option>
+                </select>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="$ctrl.queryUsers({limit: 10})">
+                        <i class="fa fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.showFilter = !$ctrl.showFilter"
+            title="{{'Filter' | translate}}">
+        {{'Additional params' | translate}}
+        <i class="fa" ng-class="$ctrl.showFilter ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+    </button>
+</div>
+
+<table class="table table-hover" ng-if="$ctrl.users.rows.length > 0">
+    <thead>
+    <tr>
+        <th class="hidden-xs">Id</th>
+        <th>{{'Fullname' | translate}}</th>
+        <th class="hidden-xs hidden-sm">{{'Documents' | translate}}</th>
+        <th>
+            <button class="btn btn-default btn-sm" ng-click="$ctrl.showUserModal(0)">
+                <i class="fa fa-plus"></i>
+            </button>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in $ctrl.users.rows track by user.id" ng-class="{'danger': user.deletedAt}">
+        <td class="hidden-xs">{{::user.id}}</td>
+        <td>
+            {{user.fullname}}<br>
+            <b ng-if="user.deletedAt">{{'Deleted at' | translate}} {{user.deletedAt | date: 'dd.MM.yy hh:mm'}}</b>
+        </td>
+        <td class="hidden-xs hidden-sm">
+            <span ng-repeat="document in user.documents track by $index">
+                {{document.name}}<small ng-if="user.documents.length > $index + 1">, </small>
+            </span>
+        </td>
+        <td>
+            <button class="btn btn-default btn-sm" ng-click="$ctrl.showUserModal(user.id)">
+                <i class="fa fa-pencil"></i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="alert alert-info" ng-if="$ctrl.users.rows.length == 0">
+    <i class="fa fa-info"></i> {{'Users not found' | translate}}
+    <a href="#" ng-click="$ctrl.showUserModal(0)"><i class="fa fa-plus"></i></a>
+</div>
+
+<div uib-pager data-ng-model="$ctrl.params.page" ng-change="$ctrl.queryUsers({page: $ctrl.params.page})"
+     total-items="$ctrl.users.count" items-per-page="$ctrl.params.limit"></div>

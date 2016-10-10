@@ -40,6 +40,7 @@ angular.element(document).ready(() => {
     requireAll(require.context('./components', true, /\.js$/));
     requireAll(require.context('./configs', true, /\.js$/));
     requireAll(require.context('./directives', true, /\.js$/));
+    requireAll(require.context('./filters', true, /\.js$/));
     requireAll(require.context('./modals', true, /\.js$/));
     requireAll(require.context('./pages', true, /\.js$/));
     requireAll(require.context('./services', true, /\.js$/));

@@ -20,6 +20,23 @@
                         <i class="fa fa-user"></i> {{'Signed in as' | translate}} {{$ctrl.currentUser.fullname}}
                     </a>
                 </li>
+                <li class="dropdown" ng-if="$ctrl.currentUser.isAdmin">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-lock"></i> {{'Admin' | translate}}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ui-sref-active="active">
+                            <a ui-sref="index.admin.users">
+                                <i class="fa fa-users"></i> {{'Users' | translate}}
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="index.admin.tags">
+                                <i class="fa fa-tags"></i> {{'Tags' | translate}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li>
                     <a nk-confirm="{{'Are you sure you want to signout?' | translate}}" ng-click="$ctrl.signout()">
                         <i class="fa fa-sign-out"></i> {{'Signout' | translate}}
