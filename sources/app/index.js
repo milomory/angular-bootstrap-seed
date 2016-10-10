@@ -15,12 +15,12 @@ angular.module('app', [
 
     $translateProvider.useSanitizeValueStrategy('')
         .translations('ru_RU', require('./translates/ru_RU.json'))
-        .preferredLanguage('ru_RU');
+        .translations('ru_TJ', require('./translates/ru_TJ.json'));
 
     if (process.env.NODE_ENV == 'production') {
         $compileProvider.debugInfoEnabled(false);
     }
-}).run(($cookies, $transitions, $state, authService) => {
+}).run(($cookies, $transitions, $state, $translate, authService) => {
     let currentUser = null;
 
     authService.check().catch(() => $state.go('auth'));
@@ -34,6 +34,8 @@ angular.module('app', [
     $transitions.onError({to: 'auth'}, () => $state.go('index'));
 
     $transitions.onSuccess({}, () => document.body.scrollTop = document.documentElement.scrollTop = 0);
+
+    $translate.use($cookies.getObject('currentLanguage') || navigator.languages[0]);
 });
 
 angular.element(document).ready(() => {

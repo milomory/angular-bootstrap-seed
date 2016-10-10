@@ -1,13 +1,14 @@
 <form name="searchForm" novalidate ng-submit="$ctrl.ngChange({$value: $ctrl.ngModel})">
     <div class="form-group">
         <div class="input-group input-group-sm">
-            <input class="form-control" placeholder="Поиск..." ng-model="$ctrl.ngModel"
+            <input class="form-control" placeholder="{{'Search' | translate}}..." ng-model="$ctrl.ngModel"
                    ng-model-options="{updateOn: 'blur'}">
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit">
                     <i class="fa fa-search"></i>
                 </button>
-                <button class="btn btn-default" ng-click="$ctrl.ngChange({$value: $ctrl.ngModel = undefined})">
+                <button class="btn btn-default" type="button"
+                        ng-click="$ctrl.ngChange({$value: $ctrl.ngModel = undefined})">
                     <i class="fa fa-eraser"></i>
                 </button>
             </div>

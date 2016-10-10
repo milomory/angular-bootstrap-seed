@@ -43,5 +43,8 @@
   "Users": "Пользователи",
   "Field is required": "Поле обязательно для заполнения",
   "Field doesn't match pattern": "Поле должно соотствовать выражению",
-  "Delete user?": "Удалить пользователя?"
+  "Delete user?": "Удалить пользователя?",
+  "Language": "Язык",
+  "Deleted at": "Удален",
+  "Search": "Поиск"
 }

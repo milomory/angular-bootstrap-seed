@@ -20,9 +20,19 @@
                         <i class="fa fa-user"></i> {{'Signed in as' | translate}} {{$ctrl.currentUser.fullname}}
                     </a>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-language"></i> {{'Language' | translate}}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="language in $ctrl.languages" ng-class="{'active': language == $ctrl.currentLanguage}">
+                            <a href="#" ng-click="$ctrl.changeLanguage(language)">{{language}}</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="dropdown" ng-if="$ctrl.currentUser.isAdmin">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-lock"></i> {{'Admin' | translate}}<span class="caret"></span>
+                        <i class="fa fa-lock"></i> {{'Administrator' | translate}}<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li ui-sref-active="active">

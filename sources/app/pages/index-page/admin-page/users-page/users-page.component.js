@@ -63,7 +63,7 @@ angular.module('app').config($stateProvider => {
             modalService.showUserModal(userId).then(user => {
                 this.queryUsers();
 
-                socketService.emit(`user${user.id}`, `user${user.id} update`, user);
+                socketService.emit(`user${userId}`, `user${userId} update`, user);
                 socketService.emit('users', 'users update');
             });
         };
