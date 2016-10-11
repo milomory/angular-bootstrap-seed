@@ -71,8 +71,14 @@
 <table class="table table-hover" ng-if="$ctrl.documents.rows.length > 0">
     <thead>
     <tr>
-        <th class="hidden-xs">Id</th>
-        <th>{{'Name' | translate}}</th>
+        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order == 'id' ? '-' : '') + 'id'})">
+            Id <i ng-if="$ctrl.params.order.indexOf('id') != -1"
+                  ng-class="'fa fa-chevron-' + ($ctrl.params.order == 'id' ? 'up' : 'down')"></i>
+        </th>
+        <th ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order == 'name' ? '-' : '') + 'name'})">
+            {{'Name' | translate}} <i ng-if="$ctrl.params.order.indexOf('name') != -1"
+                                      ng-class="'fa fa-chevron-' + ($ctrl.params.order == 'name' ? 'up' : 'down')"></i>
+        </th>
         <th class="hidden-xs">{{'Created by' | translate}}</th>
         <th class="hidden-xs hidden-sm">{{'Changed' | translate}}</th>
         <th class="hidden-xs hidden-sm">{{'Tags' | translate}}</th>

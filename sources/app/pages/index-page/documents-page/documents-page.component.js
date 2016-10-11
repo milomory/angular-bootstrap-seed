@@ -5,11 +5,12 @@
 angular.module('app').config($stateProvider => {
     $stateProvider.state({
         name: 'index.documents',
-        url: '/documents?page&limit&name&creatorId&tagIds&scopes',
+        url: '/documents?page&limit&name&creatorId&tagIds&scopes&order',
         params: {
             page: {value: '1', squash: true},
             limit: {value: '10', squash: true},
-            scopes: {value: 'creator,tags', squash: true}
+            scopes: {value: 'creator,tags', squash: true},
+            order: {value: 'id', squash: true}
         },
         reloadOnSearch: false,
         component: 'documentsPage',
