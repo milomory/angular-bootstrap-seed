@@ -16,7 +16,7 @@ angular.module('app').config($stateProvider => {
 
         this.currentUser = $cookies.getObject('currentUser');
         this.currentLanguage = $translate.proposedLanguage() || $translate.use();
-        this.languages = ['ru_RU', 'ru_TJ', 'en_EN'];
+        this.languages = $translate.getAvailableLanguageKeys();
 
         socketService.subscribe(`user${this.currentUser.id}`);
 

@@ -12,10 +12,17 @@ angular.module('app', [
 }).config(($locationProvider, $urlRouterProvider, $translateProvider, $compileProvider) => {
     $locationProvider.html5Mode(true).hashPrefix('!');
     $urlRouterProvider.otherwise('/auth');
+    $translateProvider.useSanitizeValueStrategy('');
 
-    $translateProvider.useSanitizeValueStrategy('')
-        .translations('ru_RU', require('./translates/ru_RU.json'))
-        .translations('ru_TJ', require('./translates/ru_TJ.json'));
+    let languageContext = require.context('./translates', true, /\.json$/);
+    let languages = ['en_US'];
+
+    languageContext.keys().forEach(filename => {
+        let language = filename.match(/\w+/)[0];
+        $translateProvider.translations([languages.push(language), language][1], languageContext(filename));
+    });
+
+    $translateProvider.registerAvailableLanguageKeys(languages);
 
     if (process.env.NODE_ENV == 'production') {
         $compileProvider.debugInfoEnabled(false);
