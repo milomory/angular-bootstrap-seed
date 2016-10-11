@@ -23,5 +23,6 @@ require('angular-ui-select');
 
 window.requireAll = requireContext => requireContext.keys().map(requireContext);
 window.io = require('socket.io-client/socket.io');
+window.compose = (...funcs) => value => funcs.reduce((v, fn) => fn(v), value);
 
 require('./prototypes');
