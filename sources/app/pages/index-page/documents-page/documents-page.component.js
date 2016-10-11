@@ -18,7 +18,7 @@ angular.module('app').config($stateProvider => {
                 // преобразователь $stateParams которые имеют ids в строку уникальных number
                 Object.keys($stateParams).filter(key => /ids$/i.test(key) && $stateParams[key]).reduce((params, key) =>
                     Object.assign(params, {[params[key]]: $stateParams[key].split(',').map(Math.floor).filter(Boolean)
-                        .unique().join(',')}), $stateParams
+                        .map(Math.abs).unique().join(',')}), $stateParams
                 );
 
                 return apiService.Document.query($stateParams).$promise;
@@ -29,7 +29,8 @@ angular.module('app').config($stateProvider => {
             tags: ($stateParams, apiService) => {
                 if ($stateParams.tagIds) {
                     // преобразователь $stateParams.tagIds в массив с уникальными number
-                    $stateParams.tagIds = $stateParams.tagIds.split(',').map(Math.floor).filter(Boolean).unique();
+                    $stateParams.tagIds = $stateParams.tagIds.split(',').map(Math.floor).filter(Boolean).map(Math.abs)
+                        .unique();
 
                     if ($stateParams.tagIds.length) {
                         $stateParams.tagIds = $stateParams.tagIds.join(',');
@@ -55,8 +56,8 @@ angular.module('app').config($stateProvider => {
 
         // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
         Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
-            this.params[key] = (this.params[key] || '').split(',').map(Math.floor).filter(Boolean).unique()
-                .map(id => ({id}));
+            this.params[key] = (this.params[key] || '').split(',').map(Math.floor).filter(Boolean).map(Math.abs)
+                .unique().map(id => ({id}));
         });
 
         socketService.subscribe('documents');
