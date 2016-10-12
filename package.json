@@ -8,7 +8,8 @@
     "dev-server": "webpack-dev-server",
     "dev-server-work": "HOST=192.168.50.13 webpack-dev-server",
     "postinstall": "bower install && typings install && npm run fixDistDebugRef",
-    "fixDistDebugRef": "mkdir -p node_modules/debug/dist && cp node_modules/debug/debug.js node_modules/debug/dist/"
+    "fixDistDebugRef": "mkdir -p node_modules/debug/dist && cp node_modules/debug/debug.js node_modules/debug/dist/",
+    "bower-update": "bower-update"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
