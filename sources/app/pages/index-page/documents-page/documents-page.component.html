@@ -63,23 +63,23 @@
     </form>
     <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.showFilter = !$ctrl.showFilter"
             title="{{'Filter' | translate}}">
-        {{'Additional params' | translate}} <i ng-class="'fa fa-arrow-' + ($ctrl.showFilter ? 'up' : 'down')"></i>
+        {{'Additional params' | translate}} <i ng-class="'fa fa-arrow-' + ($ctrl.showFilter ? 'up' : 'down')"></i> {{hui}}
     </button>
 </div>
 
 <table class="table table-hover" ng-if="$ctrl.documents.rows.length > 0">
     <thead>
     <tr>
-        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order == 'id' ? '-' : '') + 'id'})">
-            Id <i ng-class="$ctrl.params.order | sortClassIf: 'id'"></i>
+        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: $ctrl.setSort($ctrl.params.order, 'id')})">
+            Id <i ng-class="$ctrl.getSortClass($ctrl.params.order, 'id')"></i>
         </th>
-        <th ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order == 'name' ? '-' : '') + 'name'})">
-            {{'Name' | translate}} <i ng-class="$ctrl.params.order | sortClassIf: 'name'"></i>
+        <th ng-click="$ctrl.queryDocuments({order: $ctrl.setSort($ctrl.params.order, 'name')})">
+            {{'Name' | translate}} <i ng-class="$ctrl.getSortClass($ctrl.params.order, 'name')"></i>
         </th>
         <th class="hidden-xs">{{'Created by' | translate}}</th>
         <th class="hidden-xs hidden-sm"
-            ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order == 'updatedAt' ? '-' : '') + 'updatedAt'})">
-            {{'Changed' | translate}} <i ng-class="$ctrl.params.order | sortClassIf: 'updatedAt'"></i>
+            ng-click="$ctrl.queryDocuments({order: $ctrl.setSort($ctrl.params.order, 'updatedAt')})">
+            {{'Changed' | translate}} <i ng-class="$ctrl.getSortClass($ctrl.params.order, 'updatedAt')"></i>
         </th>
         <th class="hidden-xs hidden-sm">{{'Tags' | translate}}</th>
         <th>

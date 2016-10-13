@@ -27,8 +27,10 @@ angular.module('app', [
     if (process.env.NODE_ENV == 'production') {
         $compileProvider.debugInfoEnabled(false);
     }
-}).run(($cookies, $transitions, $state, $translate, authService) => {
+}).run(($cookies, $rootScope, $transitions, $state, $translate, authService) => {
     let currentUser = null;
+
+    $rootScope.hui = 500;
 
     authService.check().catch(() => $state.go('auth'));
 

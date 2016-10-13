@@ -128,6 +128,10 @@ angular.module('app').config($stateProvider => {
             }
         };
 
+        // TODO вынести в папу для дальнейшего использования в других контроллерах
+        this.setSort = (param, field) => (param == field ? '-' : '') + field;
+        this.getSortClass = (param, field) => 'fa fa-sort' + (param.indexOf(field) != -1 ? '-' + (param == field ? 'up' : 'down') : '');
+
         $scope.$on('$destroy', () => {
             socketService.unsubscribe('documents');
         });
