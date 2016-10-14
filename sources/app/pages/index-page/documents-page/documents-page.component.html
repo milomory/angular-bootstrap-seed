@@ -63,24 +63,25 @@
     </form>
     <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.showFilter = !$ctrl.showFilter"
             title="{{'Filter' | translate}}">
-        {{'Additional params' | translate}} <i ng-class="$ctrl.getFilterClass($ctrl.showFilter)"></i>
+        {{'Additional params' | translate}} <!--<nk-icon name="{{'arrow-' + ($ctrl.showFilter ? 'up' : 'down')}}"></nk-icon>-->
+        <i class="fa fa-fw fa-sort"></i>
     </button>
 </div>
+
 <table class="table table-hover" ng-if="$ctrl.documents.rows.length > 0">
     <thead>
     <tr>
         <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order | setSortValue: 'id')})">
-            Id <i ng-class="$ctrl.params.order | sortClassOf: 'id'"></i>
+            Id <nk-icon name="{{'sort' + ($ctrl.params.order.indexOf('id') != -1 ? '-' + ($ctrl.params.order == 'id' ? 'up' : 'down') : '')}}"></nk-icon>
         </th>
 
         <th ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order | setSortValue: 'name')})">
-            {{'Name' | translate}} <i ng-class="$ctrl.params.order | sortClassOf: 'name'"></i>
+            {{'Name' | translate}} <nk-icon name="sort" ng-model="$ctrl.params.order" has="name"><nk-icon>
         </th>
-
         <th class="hidden-xs">{{'Created by' | translate}}</th>
         <th class="hidden-xs hidden-sm"
             ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order | setSortValue: 'updatedAt')})">
-            {{'Changed' | translate}} <i ng-class="$ctrl.params.order | sortClassOf: 'updatedAt'"></i>
+            {{'Changed' | translate}} <nk-icon name="sort" ng-model="$ctrl.params.order" has="updatedAt"><nk-icon>
         </th>
         <th class="hidden-xs hidden-sm">{{'Tags' | translate}}</th>
         <th>
@@ -105,9 +106,10 @@
         </td>
         <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
         <td class="hidden-xs hidden-sm">
-            <span ng-repeat="tag in document.tags track by $index" ng-click="$ctrl.queryDocuments({tagIds: [tag]})">
-                {{tag.name}}<small ng-if="document.tags.length > $index + 1">, </small>
-            </span>
+            {{document.tags | map: 'name' | join: ',' | split: ','}}
+            <!--<span ng-repeat="tag in document.tags track by $index" ng-click="$ctrl.queryDocuments({tagIds: [tag]})">-->
+                <!--{{tag.name}}<small ng-if="document.tags.length > $index + 1">, </small>-->
+            <!--</span>-->
         </td>
         <td>
             <div class="btn-group" style="width: 66px;">

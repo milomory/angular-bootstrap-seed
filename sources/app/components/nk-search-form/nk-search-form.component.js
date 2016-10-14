@@ -3,13 +3,14 @@
  *
  * @ngdoc component
  * @name nkSearchForm
+ *
  * @param ngModel
  * @param ngChange
  */
 
 angular.module('app').component('nkSearchForm', {
     bindings: {
-        ngModel: '=',
+        ngModel: '<',
         ngChange: '&'
     },
     template: require('./nk-search-form.component.html')

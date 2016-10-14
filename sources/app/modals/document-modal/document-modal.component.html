@@ -9,7 +9,7 @@
         <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
             <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
         </div>
-        <div class="form-group has-success" ng-class="{'has-error': (documentForm.name.$error | length)}">
+        <div class="form-group has-success" ng-class="{'has-error': (documentForm.name.$error | keys).length}">
             <label class="control-label" for="name">
                 {{'Name' | translate}}
                 <span ng-messages="documentForm.name.$error">

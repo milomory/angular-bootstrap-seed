@@ -128,9 +128,6 @@ angular.module('app').config($stateProvider => {
             }
         };
 
-        // TODO вынести в папу для дальнейшего использования в других контроллерах
-        this.getFilterClass = field => 'fa fa-arrow-' + (field ? 'up' : 'down');
-
         $scope.$on('$destroy', () => {
             socketService.unsubscribe('documents');
         });
