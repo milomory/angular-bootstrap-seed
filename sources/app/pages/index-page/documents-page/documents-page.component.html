@@ -70,16 +70,16 @@
 <table class="table table-hover" ng-if="$ctrl.documents.rows.length > 0">
     <thead>
     <tr>
-        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: $root.sortValueBy($ctrl.params.order, 'id')})">
-            Id <i ng-class="$root.sortClassOf($ctrl.params.order, 'id')"></i>
+        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: $ctrl.sortValueBy($ctrl.params.order, 'id')})">
+            Id <i ng-class="$ctrl.sortClassOf($ctrl.params.order, 'id')"></i>
         </th>
-        <th ng-click="$ctrl.queryDocuments({order: $root.sortValueBy($ctrl.params.order, 'name')})">
-            {{'Name' | translate}} <i ng-class="$root.sortClassOf($ctrl.params.order, 'name')"></i>
+        <th ng-click="$ctrl.queryDocuments({order: $ctrl.sortValueBy($ctrl.params.order, 'name')})">
+            {{'Name' | translate}} <i ng-class="$ctrl.sortClassOf($ctrl.params.order, 'name')"></i>
         </th>
         <th class="hidden-xs">{{'Created by' | translate}}</th>
         <th class="hidden-xs hidden-sm"
-            ng-click="$ctrl.queryDocuments({order: $root.sortValueBy($ctrl.params.order, 'updatedAt')})">
-            {{'Changed' | translate}} <i ng-class="$root.sortClassOf($ctrl.params.order, 'updatedAt')"></i>
+            ng-click="$ctrl.queryDocuments({order: $ctrl.sortValueBy($ctrl.params.order, 'updatedAt')})">
+            {{'Changed' | translate}} <i ng-class="$ctrl.sortClassOf($ctrl.params.order, 'updatedAt')"></i>
         </th>
         <th class="hidden-xs hidden-sm">{{'Tags' | translate}}</th>
         <th>

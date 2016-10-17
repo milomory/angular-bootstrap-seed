@@ -57,6 +57,9 @@ angular.module('app').config($stateProvider => {
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
 
+        // TODO это костыль
+        angular.extend(this, $scope.$root);
+
         // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
         Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
             this.params[key] = (this.params[key] || '').split(',').map(compose(Math.abs, Math.trunc)).filter(Boolean)
