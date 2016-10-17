@@ -27,7 +27,7 @@ angular.module('app').service('paramService', function () {
         return params;
     };
 
-    this.vieboni = (params, stateParams, thisParams) => {
+    this.mergeParams = (params, stateParams, thisParams) => {
         Object.keys(params).forEach(key => {
             stateParams[key] = params[key];
 
