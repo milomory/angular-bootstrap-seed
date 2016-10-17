@@ -63,25 +63,23 @@
     </form>
     <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.showFilter = !$ctrl.showFilter"
             title="{{'Filter' | translate}}">
-        {{'Additional params' | translate}} <!--<nk-icon name="{{'arrow-' + ($ctrl.showFilter ? 'up' : 'down')}}"></nk-icon>-->
-        <i class="fa fa-fw fa-sort"></i>
+        {{'Additional params' | translate}} <i class="fa fa-arrow-{{$ctrl.showFilter ? 'up' : 'down'}}"></i>
     </button>
 </div>
 
 <table class="table table-hover" ng-if="$ctrl.documents.rows.length > 0">
     <thead>
     <tr>
-        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order | setSortValue: 'id')})">
-            Id <nk-icon name="{{'sort' + ($ctrl.params.order.indexOf('id') != -1 ? '-' + ($ctrl.params.order == 'id' ? 'up' : 'down') : '')}}"></nk-icon>
+        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: $root.sortValueBy($ctrl.params.order, 'id')})">
+            Id <i ng-class="$root.sortClassOf($ctrl.params.order, 'id')"></i>
         </th>
-
-        <th ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order | setSortValue: 'name')})">
-            {{'Name' | translate}} <nk-icon name="sort" ng-model="$ctrl.params.order" has="name"><nk-icon>
+        <th ng-click="$ctrl.queryDocuments({order: $root.sortValueBy($ctrl.params.order, 'name')})">
+            {{'Name' | translate}} <i ng-class="$root.sortClassOf($ctrl.params.order, 'name')"></i>
         </th>
         <th class="hidden-xs">{{'Created by' | translate}}</th>
         <th class="hidden-xs hidden-sm"
-            ng-click="$ctrl.queryDocuments({order: ($ctrl.params.order | setSortValue: 'updatedAt')})">
-            {{'Changed' | translate}} <nk-icon name="sort" ng-model="$ctrl.params.order" has="updatedAt"><nk-icon>
+            ng-click="$ctrl.queryDocuments({order: $root.sortValueBy($ctrl.params.order, 'updatedAt')})">
+            {{'Changed' | translate}} <i ng-class="$root.sortClassOf($ctrl.params.order, 'updatedAt')"></i>
         </th>
         <th class="hidden-xs hidden-sm">{{'Tags' | translate}}</th>
         <th>
@@ -106,10 +104,9 @@
         </td>
         <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
         <td class="hidden-xs hidden-sm">
-            {{document.tags | map: 'name' | join: ',' | split: ','}}
-            <!--<span ng-repeat="tag in document.tags track by $index" ng-click="$ctrl.queryDocuments({tagIds: [tag]})">-->
-                <!--{{tag.name}}<small ng-if="document.tags.length > $index + 1">, </small>-->
-            <!--</span>-->
+            <span ng-repeat="tag in document.tags track by $index" ng-click="$ctrl.queryDocuments({tagIds: [tag]})">
+                {{tag.name}}<small ng-if="document.tags.length > $index + 1">, </small>
+            </span>
         </td>
         <td>
             <div class="btn-group" style="width: 66px;">

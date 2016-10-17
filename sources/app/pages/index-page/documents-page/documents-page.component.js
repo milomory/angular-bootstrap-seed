@@ -18,8 +18,10 @@ angular.module('app').config($stateProvider => {
             documents: ($stateParams, apiService) => {
                 // преобразователь $stateParams которые имеют ids в строку уникальных number
                 Object.keys($stateParams).filter(key => /ids$/i.test(key) && $stateParams[key]).reduce((params, key) =>
-                    Object.assign(params, {[params[key]]: $stateParams[key].split(',')
-                        .map(compose(Math.abs, Math.trunc)).filter(Boolean).unique().join(',')}), $stateParams
+                    Object.assign(params, {
+                        [params[key]]: $stateParams[key].split(',')
+                            .map(compose(Math.abs, Math.trunc)).filter(Boolean).unique().join(',')
+                    }), $stateParams
                 );
 
                 return apiService.Document.query($stateParams).$promise;

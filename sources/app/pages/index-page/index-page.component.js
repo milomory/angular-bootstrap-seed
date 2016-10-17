@@ -43,6 +43,10 @@ angular.module('app').config($stateProvider => {
             $cookies.putObject('currentLanguage', language);
         };
 
+        // TODO это костыль
+        $rootScope.sortValueBy = (param, value) => (param == value ? '-' : '') + value;
+        $rootScope.sortClassOf = (param, value) => 'fa fa-sort' + (param.indexOf(value) != -1 ? '-' + (param == value ? 'up' : 'down') : '');
+
         $rootScope.$on('$destroy', () => {
             socketService.unsubscribe(`user${this.currentUser.id}`);
         });
