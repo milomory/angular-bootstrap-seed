@@ -19,8 +19,8 @@ angular.module('app').config($stateProvider => {
                 // преобразователь $stateParams которые имеют ids в строку уникальных number
                 Object.keys($stateParams).filter(key => /ids$/i.test(key) && $stateParams[key]).reduce((params, key) =>
                     Object.assign(params, {
-                        [params[key]]: $stateParams[key].split(',')
-                            .map(compose(Math.abs, Math.trunc)).filter(Boolean).unique().join(',')
+                        [key]: $stateParams[key].split(',').map(compose(Math.abs, Math.trunc)).filter(Boolean).unique()
+                            .join(',') || undefined
                     }), $stateParams
                 );
 
@@ -57,8 +57,8 @@ angular.module('app').config($stateProvider => {
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
 
-        // TODO это костыль
-        angular.extend(this, $scope.$root);
+        this.sortValue = v => (this.params.order == v ? '-' : '') + v;
+        this.sortClassOf = v => 'fa fa-sort' + ['-up', '-down', ''][(this.params.order.match(v) || {index: 2}).index];
 
         // преобразователь всех this.params, которые имеют ids, в массивы объектов с id
         Object.keys(this.params).filter(key => /ids/i.test(key)).forEach(key => {
