@@ -23,13 +23,27 @@ angular.module('app').service('paramService', function () {
             params[key] = (params[key] || '').split(',').map(compose(Math.abs, Math.trunc)).filter(Boolean).unique()
                 .map(id => ({id}));
         });
-        
+
         return params;
     };
 
-    this.mergeParams = (params, stateParams, thisParams) => {
+    this.mergeUniqueIds = (target, source) => {
+        Object.keys(target).forEach(key => {
+            if (Array.isArray(target[key]) && /ids$/i.test(key)) {
+                target[key] = target[key].concat(source[key]).reduce((param, item) =>
+                    Object.assign(param, {[item.id]: Object.assign(param[item.id] || {}, item)}), {}
+                );
+
+                target[key] = Object.keys(target[key]).map(id => target[key][id]);
+            }
+        });
+
+        return target;
+    };
+
+    this.mergeParams1 = (params, stateParams, thisParams) => {
         Object.keys(params).forEach(key => {
-            stateParams[key] = params[key];
+            // stateParams[key] = params[key];
 
             if (Array.isArray(params[key]) && /ids$/i.test(key)) {
                 // скресщиватель всех params которые array с thisParams
@@ -38,7 +52,7 @@ angular.module('app').service('paramService', function () {
                 );
 
                 params[key] = Object.keys(params[key]).map(id => params[key][id]);
-                stateParams[key] = params[key].map(item => item.id).join(',') || undefined;
+                // stateParams[key] = params[key].map(item => item.id).join(',') || undefined;
             }
 
             thisParams[key] = params[key];
