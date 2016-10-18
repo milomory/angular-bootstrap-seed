@@ -35,14 +35,14 @@ angular.module('app', [
     $transitions.onBefore({}, () => currentUser = $cookies.getObject('currentUser'));
 
     $transitions.onStart({to: 'index.*'}, () => !!currentUser);
-    $transitions.onError({to: 'index.*'}, () => $state.go('error'));
+    $transitions.onError({to: 'index.*'}, () => $state.go('auth'));
 
     $transitions.onStart({to: 'auth'}, () => !currentUser);
     $transitions.onError({to: 'auth'}, () => $state.go('index'));
 
     $transitions.onSuccess({}, () => document.body.scrollTop = document.documentElement.scrollTop = 0);
 
-    $translate.use($cookies.getObject('currentLanguage') || navigator.languages[0]);
+    $translate.use($cookies.getObject('currentLanguage') || navigator.languages[0] || 'en_US');
 });
 
 angular.element(document).ready(() => {

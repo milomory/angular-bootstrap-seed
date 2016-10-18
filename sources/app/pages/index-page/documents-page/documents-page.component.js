@@ -52,7 +52,7 @@ angular.module('app').config($stateProvider => {
         tags: '<'
     },
     template: require('./documents-page.component.html'),
-    controller: function ($scope, $cookies, $state, appConfig, modalService, socketService, paramService) {
+    controller: function ($scope, $cookies, $state, appConfig, modalService, socketService) {
         this.currentUser = $cookies.getObject('currentUser');
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
@@ -79,8 +79,6 @@ angular.module('app').config($stateProvider => {
          */
         this.queryDocuments = params => {
             if (params) {
-                // paramService.mergeUniqueIds(params, this.params);
-
                 Object.keys(params).forEach(key => {
                     $state.params[key] = params[key];
 
