@@ -1,8 +1,6 @@
 /**
  * Created by niko on 04.10.16.
- */
-
-/**
+ *
  * @return {Array}
  */
 Array.prototype.unique = function () {
@@ -10,6 +8,8 @@ Array.prototype.unique = function () {
 };
 
 /**
+ * Created by niko on 04.10.16.
+ *
  * @return {string}
  */
 String.prototype.capitalize = function () {
