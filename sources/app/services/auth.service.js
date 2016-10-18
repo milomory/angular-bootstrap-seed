@@ -7,13 +7,9 @@ angular.module('app').service('authService', function ($http, $cookies, appConfi
      * @name authService#check
      * @return {Promise}
      */
-    this.check = () => $http.get(`${appConfig.backendUrl}check`).then(res => {
-        $cookies.putObject('currentUser', res.data);
-        return res.data;
-    }, res => {
-        $cookies.remove('currentUser');
-        return Promise.reject(res);
-    });
+    this.check = () => $http.get(`${appConfig.backendUrl}check`)
+        .then(res => [res.data, $cookies.putObject('currentUser', res.data)][0])
+        .catch(res => [Promise.reject(res), $cookies.remove('currentUser')][0]);
 
     /**
      * @name authService#signin
