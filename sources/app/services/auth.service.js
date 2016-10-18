@@ -2,7 +2,7 @@
  * Created by niko on 21.09.16.
  */
 
-angular.module('app').service('authService', function ($http, $q, $cookies, appConfig) {
+angular.module('app').service('authService', function ($http, $cookies, appConfig) {
     /**
      * @name authService#check
      * @return {Promise}
