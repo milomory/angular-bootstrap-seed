@@ -37,6 +37,9 @@ angular.module('app', [
     $transitions.onStart({to: 'index.*'}, () => !!currentUser);
     $transitions.onError({to: 'index.*'}, () => $state.go('auth'));
 
+    $transitions.onStart({to: 'index.admin.*'}, () => currentUser ? currentUser.isAdmin : false);
+    $transitions.onError({to: 'index.admin.*'}, () => $state.go('index'));
+
     $transitions.onStart({to: 'auth'}, () => !currentUser);
     $transitions.onError({to: 'auth'}, () => $state.go('index'));
 
