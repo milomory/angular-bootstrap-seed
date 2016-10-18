@@ -30,7 +30,7 @@
             <label for="private">{{'Administrator' | translate}}</label>
         </div>
         <div class="row" ng-if="$ctrl.currentUser.id == $ctrl.user.id || $ctrl.currentUser.isAdmin">
-            <div class="form-group col-sm-6" ng-if="!$ctrl.user.id">
+            <div class="col-sm-6" ng-if="!$ctrl.user.id">
                 <div class="form-group has-success"
                      ng-class="{'has-error': (userForm.username.$error | keys).length}">
                     <label class="control-label" for="username">
@@ -44,9 +44,8 @@
                            ng-model="$ctrl.user.localUser.username" ng-pattern="/^.{0,64}$/">
                 </div>
             </div>
-            <div class="form-group col-sm-6">
-                <div class="form-group has-success"
-                     ng-class="{'has-error': (userForm.password.$error | keys).length}">
+            <div class="col-sm-6">
+                <div class="form-group has-success" ng-class="{'has-error': (userForm.password.$error | keys).length}">
                     <label class="control-label" for="password">
                         {{'Password' | translate}}
                         <span ng-messages="userForm.password.$error">
@@ -59,7 +58,7 @@
                            ng-required="!$ctrl.currentUser.isAdmin || !$ctrl.user.id">
                 </div>
             </div>
-            <div class="form-group col-sm-6" ng-if="$ctrl.user.id">
+            <div class="col-sm-6" ng-if="$ctrl.user.id">
                 <div class="form-group has-success"
                      ng-class="{'has-error': (userForm.newPassword.$error | keys).length}">
                     <label class="control-label" for="newPassword">
