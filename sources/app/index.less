@@ -1,6 +1,12 @@
+@import '../../bower_components/bootstrap/less/variables';
+
 body {
   padding-top: 88px;
   overflow-x: hidden;
+}
+
+textarea {
+  max-width: 100%;
 }
 
 .img-responsive {
@@ -8,7 +14,7 @@ body {
   width: 100%;
 }
 
-.nav, .pagination, .carousel, .panel-title a, [ng-click], [nk-preview] {
+.nav, .pagination, .carousel, .panel-title a, [ng-click], [ui-sref], [nk-preview] {
   cursor: pointer;
 }
 
@@ -33,6 +39,23 @@ body {
 
       &:nth-child(3) {
         transform: translateY(-6px) rotate(-45deg);
+      }
+    }
+  }
+}
+
+.panel {
+  .panel-heading {
+    display: flex;
+    align-items: center;
+
+    .panel-title {
+      flex-grow: 1;
+      &:not(:first-child) {
+        margin-left: @panel-body-padding;
+      }
+      &:not(:last-child) {
+        margin-right: @panel-body-padding;
       }
     }
   }

@@ -27,6 +27,7 @@ angular.module('app', [
     if (process.env.NODE_ENV == 'production') {
         $compileProvider.debugInfoEnabled(false);
     }
+
 }).run(($cookies, $transitions, $state, $translate, authService) => {
     let currentUser = null;
 
