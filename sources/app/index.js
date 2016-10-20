@@ -37,6 +37,9 @@ angular.module('app', [
     $transitions.onStart({to: 'index.*'}, () => !!currentUser);
     $transitions.onError({to: 'index.*'}, () => $state.go('auth'));
 
+    $transitions.onStart({to: 'index'}, () => false);
+    $transitions.onError({to: 'index'}, () => $state.go('index.documents'));
+
     $transitions.onStart({to: 'index.admin.*'}, () => currentUser ? currentUser.isAdmin : false);
     $transitions.onError({to: 'index.admin.*'}, () => $state.go('index'));
 
@@ -60,3 +63,5 @@ angular.element(document).ready(() => {
 
     angular.bootstrap(document, ['app']);
 });
+
+// TODO create toastr
