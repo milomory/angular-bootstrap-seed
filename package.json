@@ -10,7 +10,10 @@
     "postinstall": "bower install && typings install && npm run fixDistDebugRef",
     "fixDistDebugRef": "mkdir -p node_modules/debug/dist && cp node_modules/debug/debug.js node_modules/debug/dist/",
     "bower-update": "bower-update",
-    "typings-update": "typings ls | awk '$2 ~ /.+/ {print $2}' | xargs -I {} typings i dt~{} -SG"
+    "typings-update": "typings ls | awk '$2 ~ /.+/ {print $2}' | xargs -I {} typings i dt~{} -SG",
+    "release": "npm run production",
+    "npm-update": "ncu -u",
+    "update-deps": "npm run bower-update && npm run typings-update && npm run npm-update"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
