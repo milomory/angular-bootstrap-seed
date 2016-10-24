@@ -38,6 +38,7 @@ angular.module('app', [
     $transitions.onStart({to: 'index.*'}, () => !!currentUser);
     $transitions.onError({to: 'index.*'}, () => $state.go('auth'));
 
+    // TODO рекурсивность
     // $transitions.onStart({to: 'index'}, () => false);
     // $transitions.onError({to: 'index'}, () => $state.go('index.documents'));
 
