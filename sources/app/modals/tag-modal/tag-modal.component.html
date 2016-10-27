@@ -9,16 +9,9 @@
         <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
             <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
         </div>
-        <div class="form-group has-success" ng-class="{'has-error': (tagForm.name.$error | keys).length}">
-            <label class="control-label" for="name">
-                {{'Name' | translate}}
-                <span ng-messages="tagForm.name.$error">
-                    <small ng-message="required">({{'Field is required' | translate}})</small>
-                    <small ng-message="pattern">({{'Field doesn\'t match pattern' | translate}} ^.{3,64}$)</small>
-                </span>
-            </label>
-            <input class="form-control" id="name" name="name" required ng-model="$ctrl.tag.name"
-                   ng-pattern="/^.{3,64}$/">
+        <div class="form-group" nk-validate="tagForm.name">
+            <label class="control-label" for="name">{{'Name' | translate}}</label>
+            <input class="form-control" id="name" name="name" ng-model="$ctrl.tag.name" required ng-pattern="/^.{3,64}$/">
         </div>
     </div>
     <div class="modal-footer">

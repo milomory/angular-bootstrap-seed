@@ -9,15 +9,9 @@
         <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
             <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
         </div>
-        <div class="form-group has-success"><!-- ng-class="{'has-error': (userForm.fullname.$error | keys).length}"-->
-            <label class="control-label" for="fullname">
-                {{'Fullname' | translate}}
-                <span ng-messages="userForm.fullname.$error">
-                    <small ng-message="required">({{'Field is required' | translate}})</small>
-                    <small ng-message="pattern">({{'Field doesn\'t match pattern' | translate}} ^.{3,128}$)</small>
-                </span>
-            </label>
-            <input class="form-control" id="fullname" name="fullname" required ng-model="$ctrl.user.fullname"
+        <div class="form-group" nk-validate="userForm.fullname">
+            <label class="control-label" for="fullname">{{'Fullname' | translate}}</label>
+            <input class="form-control" id="fullname" name="fullname" ng-model="$ctrl.user.fullname" required
                    ng-pattern="/^.{3,128}$/">
         </div>
         <div class="form-group">
@@ -31,45 +25,27 @@
         </div>
         <div class="row" ng-if="$ctrl.currentUser.id == $ctrl.user.id || $ctrl.currentUser.isAdmin">
             <div class="col-sm-6" ng-if="!$ctrl.user.id">
-                <div class="form-group has-success"
-                     ng-class="{'has-error': (userForm.username.$error | keys).length}">
-                    <label class="control-label" for="username">
-                        {{'Username' | translate}}
-                        <span ng-messages="userForm.username.$error">
-                            <small ng-message="required">({{'Field is required' | translate}})</small>
-                            <small ng-message="pattern">({{'Field doesn\'t match pattern' | translate}} ^.{0,64}$)</small>
-                        </span>
-                    </label>
-                    <input type="text" class="form-control" id="username" name="username" ng-required="!$ctrl.user.id"
-                           ng-model="$ctrl.user.localUser.username" ng-pattern="/^.{0,64}$/">
+                <div class="form-group" nk-validate="userForm.username">
+                    <label class="control-label" for="username">{{'Username' | translate}}</label>
+                    <input type="text" class="form-control" id="username" name="username"
+                           ng-model="$ctrl.user.localUser.username" ng-required="!$ctrl.user.id"
+                           ng-pattern="/^.{1,64}$/">
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="form-group has-success" ng-class="{'has-error': (userForm.password.$error | keys).length}">
-                    <label class="control-label" for="password">
-                        {{'Password' | translate}}
-                        <span ng-messages="userForm.password.$error">
-                            <small ng-message="required">({{'Field is required' | translate}})</small>
-                            <small ng-message="pattern">({{'Field doesn\'t match pattern' | translate}} ^.{3,64}$)</small>
-                        </span>
-                    </label>
+                <div class="form-group" nk-validate="userForm.password">
+                    <label class="control-label" for="password">{{'Password' | translate}}</label>
                     <input type="password" class="form-control" id="password" name="password"
-                           ng-model="$ctrl.user.localUser.password" ng-pattern="/^.{0,64}$/"
+                           ng-model="$ctrl.user.localUser.password" ng-pattern="/^.{1,64}$/"
+                           ng-disabled="$ctrl.currentUser.isAdmin"
                            ng-required="!$ctrl.currentUser.isAdmin || !$ctrl.user.id">
                 </div>
             </div>
             <div class="col-sm-6" ng-if="$ctrl.user.id">
-                <div class="form-group has-success"
-                     ng-class="{'has-error': (userForm.newPassword.$error | keys).length}">
-                    <label class="control-label" for="newPassword">
-                        {{'New password' | translate}}
-                        <span ng-messages="userForm.newPassword.$error">
-                            <small ng-message="required">({{'Field is required' | translate}})</small>
-                            <small ng-message="pattern">({{'Field doesn\'t match pattern' | translate}} ^.{0,64}$)</small>
-                        </span>
-                    </label>
+                <div class="form-group" nk-validate="userForm.newPassword">
+                    <label class="control-label" for="newPassword">{{'New password' | translate}}</label>
                     <input type="password" class="form-control" id="newPassword" name="newPassword"
-                           ng-model="$ctrl.user.localUser.newPassword" ng-pattern="/^.{0,64}$/">
+                           ng-model="$ctrl.user.localUser.newPassword" ng-pattern="/^.{1,64}$/">
                 </div>
             </div>
         </div>

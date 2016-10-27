@@ -9,18 +9,12 @@
         <div class="alert alert-danger" ng-if="$ctrl.errorMessage">
             <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
         </div>
-        <div class="form-group has-success" ng-class="{'has-error': (documentForm.name.$error | keys).length}">
-            <label class="control-label" for="name">
-                {{'Name' | translate}}
-                <span ng-messages="documentForm.name.$error">
-                    <small ng-message="required">({{'Field is required' | translate}})</small>
-                    <small ng-message="pattern">({{'Field doesn\'t match pattern' | translate}} ^.{3,128}$)</small>
-                </span>
-            </label>
+        <div class="form-group" nk-validate="documentForm.name">
+            <label class="control-label" for="name">{{'Name' | translate}}</label>
             <input type="text" class="form-control" id="name" name="name" required ng-model="$ctrl.document.name"
                    ng-pattern="/^.{3,128}$/">
         </div>
-        <div class="form-group has-success" ng-class="{'has-error': documentForm.file.$error.required}">
+        <div class="form-group" nk-validate="documentForm.file">
             <label class="control-label" for="file">
                 {{$ctrl.document.url ? ('File already loaded' | translate) : ('File' | translate)}}
                 <button ng-if="$ctrl.document.url && $ctrl.document.isImage" class="btn btn-default btn-xs"
