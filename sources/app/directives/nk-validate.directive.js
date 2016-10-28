@@ -14,7 +14,7 @@ angular.module('app').directive('nkValidate', $filter => ({
     link: function ($scope, $element, $attrs) {
         let $label = $element.find('label.control-label');
         let $input = $element.find('input.form-control');
-        let $span = [];
+        let $small = [];
 
         $scope.$watch(() => $input.val(), () => {
             if (Object.keys($scope.nkValidate.$error).length) {
@@ -22,17 +22,16 @@ angular.module('app').directive('nkValidate', $filter => ({
                     $element.removeClass('has-success').addClass('has-error');
                 }
 
-                // TODO починить
-                if ($label && !$span.length) {
-                    $span = $label.append('<span class="message"></span>').find('span.message');
+                if ($label && !$small.length) {
+                    $small = $label.append('<small class="message"></small>').find('small.message');
                 }
 
                 switch (Object.keys($scope.nkValidate.$error)[0]) {
                     case 'required':
-                        $span.html(` - ${$filter('translate')('Field is required')}`);
+                        $small.html(` - ${$filter('translate')('Field is required')}`);
                         break;
                     case 'pattern':
-                        $span.html(` - ${$filter('translate')('Field doesn\'t match pattern')} ${$input.attr('ng-pattern')}`);
+                        $small.html(` - ${$filter('translate')('Field doesn\'t match pattern')} ${$input.attr('ng-pattern')}`);
                         break;
                 }
             } else {
@@ -40,8 +39,9 @@ angular.module('app').directive('nkValidate', $filter => ({
                     $element.removeClass('has-error').addClass('has-success');
                 }
 
-                if ($label && $span.length) {
-                    $span.remove();
+                if ($label && $small.length) {
+                    $small.remove();
+                    $small = [];
                 }
             }
         });

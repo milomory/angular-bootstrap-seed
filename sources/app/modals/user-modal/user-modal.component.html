@@ -24,20 +24,19 @@
             <label for="private">{{'Administrator' | translate}}</label>
         </div>
         <div class="row" ng-if="$ctrl.currentUser.id == $ctrl.user.id || $ctrl.currentUser.isAdmin">
-            <div class="col-sm-6" ng-if="!$ctrl.user.id">
+            <div class="col-sm-6" ng-if="!$ctrl.user.id || $ctrl.currentUser.isAdmin">
                 <div class="form-group" nk-validate="userForm.username">
                     <label class="control-label" for="username">{{'Username' | translate}}</label>
                     <input type="text" class="form-control" id="username" name="username"
-                           ng-model="$ctrl.user.localUser.username" ng-required="!$ctrl.user.id"
-                           ng-pattern="/^.{1,64}$/">
+                           ng-model="$ctrl.user.localUser.username"
+                           ng-required="!$ctrl.user.id || $ctrl.currentUser.isAdmin" ng-pattern="/^.{1,64}$/">
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6" ng-if="!$ctrl.currentUser.isAdmin || !$ctrl.user.id">
                 <div class="form-group" nk-validate="userForm.password">
                     <label class="control-label" for="password">{{'Password' | translate}}</label>
                     <input type="password" class="form-control" id="password" name="password"
                            ng-model="$ctrl.user.localUser.password" ng-pattern="/^.{1,64}$/"
-                           ng-disabled="$ctrl.currentUser.isAdmin"
                            ng-required="!$ctrl.currentUser.isAdmin || !$ctrl.user.id">
                 </div>
             </div>
