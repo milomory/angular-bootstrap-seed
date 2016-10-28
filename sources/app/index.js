@@ -7,7 +7,7 @@ angular.module('app', [
     'ui.bootstrap', 'ui.router', 'ui.select', 'ui.mask',
     'pascalprecht.translate'
 ]).value('appConfig', {
-    backendUrl: 'http://192.168.50.13:7000/',
+    backendUrl: 'http://localhost:7000/',
     itemsPerPage: [20, 50]
 }).config(($locationProvider, $urlRouterProvider, $translateProvider, $compileProvider) => {
     $locationProvider.html5Mode(true).hashPrefix('!');

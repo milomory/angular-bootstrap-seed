@@ -60,3 +60,18 @@ textarea {
     }
   }
 }
+
+.notices {
+  position: fixed;
+  top: @alert-padding / 2;
+  //right: 5px;
+  //left: 5px;
+  z-index: @zindex-modal + 1;
+  padding: @alert-padding;
+  display: none;
+
+  @media (min-width: @screen-sm-min) {
+    right: 25vw;
+    left: 25vw;
+  }
+}

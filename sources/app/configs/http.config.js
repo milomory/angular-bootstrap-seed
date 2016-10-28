@@ -5,7 +5,7 @@
 angular.module('app').config($httpProvider => {
     $httpProvider.defaults.withCredentials = true;
     $httpProvider.interceptors.push('httpInterceptor');
-}).factory('httpInterceptor', $rootScope => {
+}).factory('httpInterceptor', ($rootScope, noticeService) => {
     let pending = 0;
 
     return {
@@ -15,7 +15,6 @@ angular.module('app').config($httpProvider => {
         },
         response: res => {
             $rootScope.$broadcast('loading', --pending > 0);
-            $rootScope.$broadcast('errorMessage', res.data.message);
             return res;
         },
         responseError: res => {
@@ -26,7 +25,7 @@ angular.module('app').config($httpProvider => {
             }
 
             $rootScope.$broadcast('loading', --pending > 0);
-            $rootScope.$broadcast('errorMessage', res.data.message);
+            noticeService.danger(res.data.message);
 
             return Promise.reject(res);
         }
