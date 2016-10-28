@@ -57,6 +57,7 @@ angular.module('app').config($stateProvider => {
         this.params = angular.copy($state.params);
         this.itemsPerPage = appConfig.itemsPerPage;
 
+        // TODO create directive
         this.sortValue = v => (this.params.order == v ? '-' : '') + v;
         this.sortClassOf = v => 'fa fa-sort' + ['-up', '-down', ''][(this.params.order.match(v) || {index: 2}).index];
 

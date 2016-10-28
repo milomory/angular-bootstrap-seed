@@ -4,7 +4,7 @@
 
 angular.module('app', [
     'ngAnimate', 'ngCookies', 'ngMessages', 'ngResource', 'ngSanitize',
-    'ui.bootstrap', 'ui.router', 'ui.select',
+    'ui.bootstrap', 'ui.router', 'ui.select', 'ui.mask',
     'pascalprecht.translate'
 ]).value('appConfig', {
     backendUrl: 'http://192.168.50.13:7000/',

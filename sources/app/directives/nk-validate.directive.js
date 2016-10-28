@@ -33,6 +33,9 @@ angular.module('app').directive('nkValidate', $filter => ({
                     case 'pattern':
                         $small.html(` - ${$filter('translate')('Field doesn\'t match pattern')} ${$input.attr('ng-pattern')}`);
                         break;
+                    case 'mask':
+                        $small.html(` - ${$filter('translate')('Field doesn\'t match mask')} ${$input.attr('ui-mask')}`);
+                        break;
                 }
             } else {
                 if (!$element.hasClass('has-success')) {

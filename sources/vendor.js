@@ -20,6 +20,7 @@ require('angular-bootstrap');
 require('angular-translate');
 require('angular-ui-router');
 require('angular-ui-select');
+require('angular-ui-mask');
 
 window.requireAll = requireContext => requireContext.keys().map(requireContext);
 window.io = require('socket.io-client/socket.io');

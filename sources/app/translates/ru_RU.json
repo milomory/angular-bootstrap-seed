@@ -41,10 +41,12 @@
   "Tag Editor": "Редактор тега",
   "Delete tag?": "Удалить тег?",
   "Users": "Пользователи",
-  "Field is required": "gоле обязательно для заполнения",
+  "Field is required": "Поле обязательно для заполнения",
   "Field doesn't match pattern": "Поле должно соотствовать выражению",
+  "Field doesn't match mask": "Поле должно соотствовать маске",
   "Delete user?": "Удалить пользователя?",
   "Language": "Язык",
   "Deleted at": "Удален",
+  "Phone": "Телефон",
   "Search": "Поиск"
 }
