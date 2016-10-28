@@ -26,8 +26,12 @@ angular.module('app').config($stateProvider => {
 
                 return apiService.Document.query($stateParams).$promise;
             },
-            users: ($stateParams, apiService) => {
-                return apiService.User.query().$promise;
+            users: ($stateParams, $cookies, apiService) => {
+                // TODO делать поиск автокомплитом
+                return apiService.User.query().$promise.then(users => {
+                    users.rows.push($cookies.getObject('currentUser'));
+                    return users;
+                });
             },
             tags: ($stateParams, apiService) => {
                 if ($stateParams.tagIds) {

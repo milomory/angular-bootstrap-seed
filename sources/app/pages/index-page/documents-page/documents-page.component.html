@@ -22,9 +22,7 @@
             </div>
             <div class="col-sm-6 form-group">
                 <div class="form-group">
-                    <label class="control-label" for="tags">
-                        {{'Tags' | translate}}
-                    </label>
+                    <label class="control-label" for="tags">{{'Tags' | translate}}</label>
                     <ui-select multiple id="tags" name="tags" ng-model="$ctrl.params.tagIds"
                                title="{{'Tags' | translate}}"
                                ng-change="$ctrl.queryDocuments({tagIds: $ctrl.params.tagIds})">
@@ -81,6 +79,9 @@
             ng-click="$ctrl.queryDocuments({order: $ctrl.sortValue('updatedAt')})">
             {{'Changed' | translate}} <i ng-class="$ctrl.sortClassOf('updatedAt')"></i>
         </th>
+        <th class="hidden-xs" ng-click="$ctrl.queryDocuments({order: $ctrl.sortValue('tagsRating')})">
+            {{'Tags rating' | translate}} <i ng-class="$ctrl.sortClassOf('tagsRating')"></i>
+        </th>
         <th class="hidden-xs hidden-sm">{{'Tags' | translate}}</th>
         <th>
             <button class="btn btn-default btn-xs" ng-click="$ctrl.showDocumentModal(0)">
@@ -103,9 +104,10 @@
             </a>
         </td>
         <td class="hidden-xs hidden-sm">{{document.updatedAt | date: 'dd.MM.yyyy'}}</td>
+        <th class="hidden-xs">{{document.tagsRating}}</th>
         <td class="hidden-xs hidden-sm">
             <span ng-repeat="tag in document.tags track by $index" ng-click="$ctrl.queryDocuments({tagIds: [tag]})">
-                {{tag.name}}<small ng-if="document.tags.length > $index + 1">, </small>
+                <a href="#">{{tag.name}}</a><small ng-if="document.tags.length > $index + 1">, </small>
             </span>
         </td>
         <td>
