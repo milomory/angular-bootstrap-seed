@@ -4,19 +4,26 @@ angular.module('app').service('noticeService', function ($document, $timeout) {
 
     this.danger = text => {
         $notices.append(`
-<div class="alert alert-danger">
-    <button class="close" data-dismiss="alert"><i class="fa fa-close"></i></button>
-    ${text}
-</div>
+            <div class="alert alert-danger">
+                <button class="close" data-dismiss="alert"><i class="fa fa-close"></i></button>
+                ${text}
+            </div>
+        `);
+    };
+
+    this.success = text => {
+        $notices.append(`
+            <div class="alert alert-success">
+                <button class="close" data-dismiss="alert"><i class="fa fa-close"></i></button>
+                ${text}
+            </div>
         `);
 
-        // $timeout(() => {
-        //     $notices.children().first().remove();
-        //     if (!$notices.children().length) {
-        //         $notices.css('display', 'none');
-        //     }
-        // }, 2000);
+        $timeout(() => {
+            $notices.children('.alert-success').first().remove();
+        }, 1000);
     };
+
 
 
 //     const $notices = $document.find('body').append('<div class="notices">').find('div.notices');

@@ -15,6 +15,7 @@ angular.module('app').config($httpProvider => {
         },
         response: res => {
             $rootScope.$broadcast('loading', --pending > 0);
+            noticeService.success('200');
             return res;
         },
         responseError: res => {
