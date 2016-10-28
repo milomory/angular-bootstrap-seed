@@ -10,8 +10,11 @@
             <i class="fa fa-warning"></i> {{$ctrl.errorMessage}}
         </div>
         <div class="form-group" nk-validate="tagForm.name">
-            <label class="control-label" for="name">{{'Name' | translate}}</label>
-            <input class="form-control" id="name" name="name" ng-model="$ctrl.tag.name" required ng-pattern="/^.{3,64}$/">
+            <label class="control-label" for="name">
+                {{'Name' | translate}} <span uib-rating ng-model="$ctrl.tag.rating"></span>
+            </label>
+            <input class="form-control" id="name" name="name" ng-model="$ctrl.tag.name" required
+                   ng-pattern="/^.{3,64}$/">
         </div>
     </div>
     <div class="modal-footer">
