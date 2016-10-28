@@ -63,15 +63,22 @@ textarea {
 
 .notices {
   position: fixed;
-  top: @alert-padding / 2;
-  //right: 5px;
-  //left: 5px;
+  top: 0;
+  right: 0;
   z-index: @zindex-modal + 1;
-  padding: @alert-padding;
-  display: none;
+  background-color: rebeccapurple;
+  width: 100vw;
+  height: 0;
 
-  @media (min-width: @screen-sm-min) {
-    right: 25vw;
-    left: 25vw;
+  @media (min-width: @screen-xs-min) {
+    width: 50vw;
+  }
+
+  @media (min-width: @screen-md-min) {
+    width: 30vw;
+  }
+
+  .alert {
+    margin: @alert-padding;
   }
 }

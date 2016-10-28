@@ -3,7 +3,6 @@ angular.module('app').service('noticeService', function ($document, $timeout) {
     const $notices = $document.find('body').find('div.notices');
 
     this.danger = text => {
-        $notices.css('display', 'block');
         $notices.append(`
 <div class="alert alert-danger">
     <button class="close" data-dismiss="alert"><i class="fa fa-close"></i></button>
