@@ -24,9 +24,9 @@ angular.module('app').config($httpProvider => {
         },
         responseError: res => {
             if (res.status == -1) {
-                res.data = {message: 'Сервер временно недоступен'};
+                res.data = {message: $filter('translate')('Server is not available')};
             } else {
-                res.data.message = res.data.message || 'Что-то пошло не так';
+                res.data.message = res.data.message || $filter('translate')('Something wrong');
             }
 
             $rootScope.$broadcast('loading', --pending > 0);
