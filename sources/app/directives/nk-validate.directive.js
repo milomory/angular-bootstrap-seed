@@ -26,16 +26,18 @@ angular.module('app').directive('nkValidate', $filter => ({
                     $small = $label.append('<small class="message"></small>').find('small.message');
                 }
 
-                switch (Object.keys($scope.nkValidate.$error)[0]) {
-                    case 'required':
-                        $small.html(` - ${$filter('translate')('Field is required')}`);
-                        break;
-                    case 'pattern':
-                        $small.html(` - ${$filter('translate')('Field doesn\'t match pattern')} ${$input.attr('ng-pattern')}`);
-                        break;
-                    case 'mask':
-                        $small.html(` - ${$filter('translate')('Field doesn\'t match mask')} ${$input.attr('ui-mask')}`);
-                        break;
+                if ($small.length && Object.keys($scope.nkValidate.$error)[0]) {
+                    switch (Object.keys($scope.nkValidate.$error)[0]) {
+                        case 'required':
+                            $small.html(` - ${$filter('translate')('Field is required')}`);
+                            break;
+                        case 'pattern':
+                            $small.html(` - ${$filter('translate')('Field doesn\'t match pattern')} ${$input.attr('ng-pattern')}`);
+                            break;
+                        case 'mask':
+                            $small.html(` - ${$filter('translate')('Field doesn\'t match mask')} ${$input.attr('ui-mask')}`);
+                            break;
+                    }
                 }
             } else {
                 if (!$element.hasClass('has-success')) {
