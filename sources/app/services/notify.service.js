@@ -6,6 +6,16 @@ angular.module('app').service('noticeService', function ($document, $timeout) {
     $document.find('body').append('<div class="notices"></div>');
     const $notices = $document.find('body').find('div.notices');
 
+    /**
+     * @name noticeService#danger
+     * @param {string} text
+     */
+
+    /**
+     * @name noticeService#success
+     * @param {string} text
+     */
+
     ['danger', 'success'].forEach(type => {
         this[type] = text => {
             $notices.append(`

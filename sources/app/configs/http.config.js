@@ -16,8 +16,16 @@ angular.module('app').config($httpProvider => {
         response: res => {
             $rootScope.$broadcast('loading', --pending > 0);
 
-            if (res.config.method != 'GET') {
-                noticeService.success($filter('translate')('Saved'));
+            switch (res.config.method) {
+                case 'POST':
+                    noticeService.success($filter('translate')('Created'));
+                    break;
+                case 'PUT':
+                    noticeService.success($filter('translate')('Updated'));
+                    break;
+                case 'DELETE':
+                    noticeService.success($filter('translate')('Deleted'));
+                    break;
             }
 
             return res;
