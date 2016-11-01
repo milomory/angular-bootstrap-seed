@@ -15,3 +15,10 @@ Array.prototype.unique = function () {
 String.prototype.capitalize = function () {
     return this[0].toUpperCase() + this.substr(1).toLowerCase();
 };
+
+$.fn.extend({
+    animateCss: function (animationName, callback = () => {}) {
+        let animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, callback.bind(this));
+    }
+});

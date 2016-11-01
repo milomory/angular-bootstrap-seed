@@ -5,7 +5,7 @@
 angular.module('app').config($httpProvider => {
     $httpProvider.defaults.withCredentials = true;
     $httpProvider.interceptors.push('httpInterceptor');
-}).factory('httpInterceptor', ($rootScope, noticeService) => {
+}).factory('httpInterceptor', ($rootScope, $filter, noticeService) => {
     let pending = 0;
 
     return {
@@ -15,7 +15,11 @@ angular.module('app').config($httpProvider => {
         },
         response: res => {
             $rootScope.$broadcast('loading', --pending > 0);
-            noticeService.success('200');
+
+            if (res.config.method != 'GET') {
+                noticeService.success($filter('translate')('Saved'));
+            }
+
             return res;
         },
         responseError: res => {
