@@ -19,7 +19,7 @@ angular.module('app').service('noticeService', function ($document, $timeout) {
     ['danger', 'success'].forEach(type => {
         this[type] = text => {
             $notices.append(`
-                <div class="alert alert-${type} animated slideInRight">
+                <div class="alert alert-${type} animated fadeInRight">
                     <button class="close" data-dismiss="alert"><i class="fa fa-close"></i></button>
                     ${text}
                 </div>
@@ -27,8 +27,8 @@ angular.module('app').service('noticeService', function ($document, $timeout) {
 
             $timeout(() => {
                 let $alert = $notices.children(`.alert-${type}`).first();
-                $alert.animateCss('slideOutRight', () => $alert.remove());
-            }, 2000);
+                $alert.animateCss('fadeOutRight', () => $alert.remove());
+            }, 2500);
         };
     });
 });

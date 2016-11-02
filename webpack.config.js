@@ -99,7 +99,8 @@ var webpackConfig = {
         }),
         new DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify(NODE_ENV)
+                'NODE_ENV': JSON.stringify(NODE_ENV),
+                'HOST': JSON.stringify(HOST)
             }
         }),
         new ProvidePlugin({

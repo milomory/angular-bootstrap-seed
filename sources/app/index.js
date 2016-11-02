@@ -7,7 +7,7 @@ angular.module('app', [
     'ui.bootstrap', 'ui.router', 'ui.select', 'ui.mask',
     'pascalprecht.translate'
 ]).value('appConfig', {
-    backendUrl: 'http://localhost:7000/',
+    backendUrl: `http://${process.env.HOST}:7000/`,
     itemsPerPage: [20, 50]
 }).config(($locationProvider, $urlRouterProvider, $translateProvider, $compileProvider) => {
     $locationProvider.html5Mode(true).hashPrefix('!');
@@ -50,7 +50,7 @@ angular.module('app', [
 
     $transitions.onSuccess({}, () => document.body.scrollTop = document.documentElement.scrollTop = 0);
 
-    $translate.use($cookies.getObject('currentLanguage') || navigator.languages[0] || 'en_US');
+    $translate.use($cookies.getObject('currentLanguage') || 'en_US');
 });
 
 angular.element(document).ready(() => {

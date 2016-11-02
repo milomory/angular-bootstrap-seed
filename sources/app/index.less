@@ -82,3 +82,22 @@ textarea {
     margin: @alert-padding;
   }
 }
+
+@media (max-width: @screen-sm-min) {
+  .container {
+    padding: @grid-gutter-width / 4;
+  }
+
+  .modal-dialog {
+    margin: 0 auto;
+  }
+
+  .modal-content {
+    border: none;
+    border-radius: 0;
+
+    & > img {
+      border-radius: 0;
+    }
+  }
+}

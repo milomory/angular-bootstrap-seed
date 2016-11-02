@@ -6,9 +6,10 @@
 </div>
 <form name="tagForm" novalidate>
     <div class="modal-body">
+        <span uib-rating ng-model="$ctrl.tag.rating"></span>
         <div class="form-group" nk-validate="tagForm.name">
             <label class="control-label" for="name">
-                {{'Name' | translate}} <span uib-rating ng-model="$ctrl.tag.rating"></span>
+                {{'Name' | translate}}
             </label>
             <input class="form-control" id="name" name="name" ng-model="$ctrl.tag.name" required
                    ng-pattern="/^.{3,64}$/">
