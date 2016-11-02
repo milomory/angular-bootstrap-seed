@@ -27,7 +27,6 @@ textarea {
 
   &:not(.collapsed) {
     .icon-bar {
-
       &:nth-child(1) {
         transform: translateY(6px) rotate(45deg);
       }
@@ -44,19 +43,19 @@ textarea {
   }
 }
 
-.panel {
-  .panel-heading {
-    display: flex;
-    align-items: center;
+.panel-heading {
+  display: flex;
+  align-items: center;
 
-    .panel-title {
-      flex-grow: 1;
-      &:not(:first-child) {
-        margin-left: @panel-body-padding;
-      }
-      &:not(:last-child) {
-        margin-right: @panel-body-padding;
-      }
+  .panel-title {
+    flex-grow: 1;
+
+    &:not(:first-child) {
+      margin-left: @panel-body-padding;
+    }
+
+    &:not(:last-child) {
+      margin-right: @panel-body-padding;
     }
   }
 }

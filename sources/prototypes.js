@@ -16,6 +16,7 @@ String.prototype.capitalize = function () {
     return this[0].toUpperCase() + this.substr(1).toLowerCase();
 };
 
+/* jQuery */
 $.fn.extend({
     animateCss: function (animationName, callback = () => {}) {
         let animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
