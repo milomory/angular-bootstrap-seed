@@ -48,7 +48,7 @@ angular.module('app', [
     $transitions.onStart({to: 'auth'}, () => !currentUser);
     $transitions.onError({to: 'auth'}, () => $state.go('index'));
 
-    $transitions.onSuccess({}, () => document.body.scrollTop = document.documentElement.scrollTop = 0);
+    $transitions.onSuccess({}, () => document.body.scrollTop = 0);
 
     $translate.use($cookies.getObject('currentLanguage') || 'en_US');
 });
@@ -65,5 +65,3 @@ angular.element(document).ready(() => {
 
     angular.bootstrap(document, ['app']);
 });
-
-// TODO create toastr

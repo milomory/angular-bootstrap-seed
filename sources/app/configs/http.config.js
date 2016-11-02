@@ -39,6 +39,7 @@ angular.module('app').config($httpProvider => {
 
             $rootScope.$broadcast('loading', --pending > 0);
             noticeService.danger(res.data.message);
+            console.error(res.data.message);
 
             return Promise.reject(res);
         }

@@ -6,6 +6,7 @@
     "production": "NODE_ENV=production webpack",
     "development": "webpack",
     "dev-server": "webpack-dev-server",
+    "dev-server-niko": "HOST=192.168.50.13 webpack-dev-server",
     "dev-server-work": "HOST=192.168.50.13 webpack-dev-server",
     "dev-server-home": "HOST=192.168.0.13 webpack-dev-server",
     "postinstall": "bower install && typings install && npm run fixDistDebugRef",
