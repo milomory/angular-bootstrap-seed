@@ -10,8 +10,8 @@ angular.module('app').config($stateProvider => {
     });
 }).component('indexPage', {
     template: require('./index-page.component.html'),
-    controller: function ($rootScope, $cookies, $state, $translate, authService, modalService, socketService) {
-        $rootScope.$on('loading', (event, loading) => this.loading = loading);
+    controller: function ($scope, $cookies, $state, $translate, authService, modalService, socketService) {
+        $scope.$on('loading', (event, loading) => this.loading = loading);
 
         this.currentUser = $cookies.getObject('currentUser');
         this.currentLanguage = $translate.proposedLanguage() || $translate.use();
@@ -22,7 +22,7 @@ angular.module('app').config($stateProvider => {
         socketService.on(`user${this.currentUser.id}`, `user${this.currentUser.id} update`, currentUser => {
             if (currentUser) {
                 $cookies.putObject('currentUser', this.currentUser = currentUser);
-                $rootScope.$applyAsync();
+                $scope.$applyAsync();
             }
         });
 
@@ -42,7 +42,7 @@ angular.module('app').config($stateProvider => {
             $cookies.putObject('currentLanguage', language);
         };
 
-        $rootScope.$on('$destroy', () => {
+        $scope.$on('$destroy', () => {
             socketService.unsubscribe(`user${this.currentUser.id}`);
         });
     }
