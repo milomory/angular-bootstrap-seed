@@ -11,7 +11,6 @@ angular.module('app').config($stateProvider => {
 }).component('indexPage', {
     template: require('./index-page.component.html'),
     controller: function ($rootScope, $cookies, $state, $translate, authService, modalService, socketService) {
-        $rootScope.$on('errorMessage', (event, message) => this.errorMessage = message);
         $rootScope.$on('loading', (event, loading) => this.loading = loading);
 
         this.currentUser = $cookies.getObject('currentUser');

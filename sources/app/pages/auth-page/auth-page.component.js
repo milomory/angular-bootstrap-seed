@@ -11,7 +11,6 @@ angular.module('app').config($stateProvider => {
 }).component('authPage', {
     template: require('./auth-page.component.html'),
     controller: function ($scope, $state, authService) {
-        $scope.$on('errorMessage', (event, message) => this.errorMessage = message);
         $scope.$on('loading', (event, loading) => this.loading = loading);
 
         this.signin = () => {
